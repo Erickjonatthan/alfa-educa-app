@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-const FormularioUsuario = () => {
+export default function FormularioUsuario() {
     const [formulario, setFormulario] = useState({
         user: '',
         senha: '',
@@ -8,16 +9,14 @@ const FormularioUsuario = () => {
         logado: true
     });
 
-    const lidarMudanca = (e) => {
-        const { name, value } = e.target;
+    const lidarMudanca = (name, value) => {
         setFormulario({
             ...formulario,
             [name]: value
         });
     };
 
-    const lidarEnvio = (e) => {
-        e.preventDefault();
+    const lidarEnvio = () => {
         if (formulario.logado) {
             // Lógica de login
             console.log('Login:', formulario);
@@ -35,45 +34,59 @@ const FormularioUsuario = () => {
     };
 
     return (
-        <div>
-            <h2>{formulario.logado ? 'Login' : 'Cadastro'}</h2>
-            <form onSubmit={lidarEnvio}>
-                <div>
-                    <label>Usuário:</label>
-                    <input
-                        type="text"
-                        name="user"
-                        value={formulario.user}
-                        onChange={lidarMudanca}
+        <View style={styles.container}>
+            <Text style={styles.title}>{formulario.logado ? 'Login' : 'Cadastro'}</Text>
+            <View style={styles.inputContainer}>
+                <Text>Usuário:</Text>
+                <TextInput
+                    style={styles.input}
+                    value={formulario.user}
+                    onChangeText={(value) => lidarMudanca('user', value)}
+                />
+            </View>
+            <View style={styles.inputContainer}>
+                <Text>Senha:</Text>
+                <TextInput
+                    style={styles.input}
+                    secureTextEntry
+                    value={formulario.senha}
+                    onChangeText={(value) => lidarMudanca('senha', value)}
+                />
+            </View>
+            {!formulario.logado && (
+                <View style={styles.inputContainer}>
+                    <Text>Email:</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={formulario.email}
+                        onChangeText={(value) => lidarMudanca('email', value)}
                     />
-                </div>
-                <div>
-                    <label>Senha:</label>
-                    <input
-                        type="password"
-                        name="senha"
-                        value={formulario.senha}
-                        onChange={lidarMudanca}
-                    />
-                </div>
-                {!formulario.logado && (
-                    <div>
-                        <label>Email:</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={formulario.email}
-                            onChange={lidarMudanca}
-                        />
-                    </div>
-                )}
-                <button type="submit">{formulario.logado ? 'Login' : 'Cadastrar'}</button>
-            </form>
-            <button onClick={alternarFormulario}>
-                {formulario.logado ? 'Ir para Cadastro' : 'Ir para Login'}
-            </button>
-        </div>
+                </View>
+            )}
+            <Button title={formulario.logado ? 'Login' : 'Cadastrar'} onPress={lidarEnvio} />
+            <Button title={formulario.logado ? 'Ir para Cadastro' : 'Ir para Login'} onPress={alternarFormulario} />
+        </View>
     );
-};
+}
 
-export default FormularioUsuario;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 16,
+        justifyContent: 'center',
+    },
+    title: {
+        fontSize: 24,
+        marginBottom: 16,
+        textAlign: 'center',
+    },
+    inputContainer: {
+        marginBottom: 12,
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        padding: 8,
+        borderRadius: 4,
+    },
+});
