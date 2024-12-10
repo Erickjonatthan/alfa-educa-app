@@ -35,6 +35,7 @@ export default function Login({ navigation }) {
             const data = await response.json();
             if (response.ok) {
                 await AsyncStorage.setItem('token', data.token);
+                await AsyncStorage.setItem('contaId', data.contaId);
                 console.log('Login bem-sucedido:', data);
                 navigation.navigate('Inicio'); // Navegar para a página inicial
             } else {
@@ -51,7 +52,7 @@ export default function Login({ navigation }) {
                 <Text style={styles.title}>Login</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Usuário"
+                    placeholder="Email"
                     value={formulario.email}
                     onChangeText={(text) => lidarMudanca('email', text)}
                 />

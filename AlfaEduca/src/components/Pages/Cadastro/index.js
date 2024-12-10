@@ -42,7 +42,7 @@ export default function Cadastro({ navigation }) {
             });
 
             if (response.status === 201) {
-                console.log('Cadastro bem-sucedido:', data);
+                console.log('Cadastro bem-sucedido:', response);
                 Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
                 navigation.navigate('Login'); // Navegar para a página de login
             } else {

@@ -13,17 +13,17 @@ const Inicio = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.footer}>
-                <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Pagina1')}>
-                    <Ionicons name="home" size={24} color="black" />
-                    <Text>Página 1</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Pagina2')}>
+                <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Camera')}>
                     <Ionicons name="camera" size={24} color="black" />
-                    <Text>Página 2</Text>
+                    <Text>Câmera</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Pagina3')}>
+                <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Inicio')}>
+                    <Ionicons name="home" size={24} color="black" />
+                    <Text>Início</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Perfil')}>
                     <Ionicons name="person" size={24} color="black" />
-                    <Text>Página 3</Text>
+                    <Text>Perfil</Text>
                 </TouchableOpacity>
             </View>
         </View>
