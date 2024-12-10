@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from './style';
 
 export default function Cadastro({ navigation }) {
     const [formulario, setFormulario] = useState({
         user: '',
         senha: '',
+        confirmarSenha: '',
         email: '',
     });
+    const [erro, setErro] = useState('');
 
     const lidarMudanca = (name, value) => {
         setFormulario({
@@ -17,12 +18,20 @@ export default function Cadastro({ navigation }) {
         });
     };
 
-      const lidarEnvio = async () => {
+    const lidarEnvio = async () => {
+        if (formulario.senha !== formulario.confirmarSenha) {
+            setErro('As senhas não coincidem.');
+            return;
+        }
+
+        setErro(''); // Limpar mensagem de erro se as senhas coincidirem
+
         const body = JSON.stringify({
             nome: formulario.user,
             email: formulario.email,
             senha: formulario.senha
         });
+
         try {
             const response = await fetch('http://localhost:8080/cadastro', {
                 method: 'POST',
@@ -31,12 +40,8 @@ export default function Cadastro({ navigation }) {
                 },
                 body: body
             });
-    
+
             if (response.status === 201) {
-                const data = await response.json();
-                await AsyncStorage.setItem('id', data.id);
-                await AsyncStorage.setItem('user', data.nome);
-                await AsyncStorage.setItem('email', data.email);
                 console.log('Cadastro bem-sucedido:', data);
                 Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
                 navigation.navigate('Login'); // Navegar para a página de login
@@ -63,6 +68,12 @@ export default function Cadastro({ navigation }) {
                 />
                 <TextInput
                     style={styles.input}
+                    placeholder="Email"
+                    value={formulario.email}
+                    onChangeText={(text) => lidarMudanca('email', text)}
+                />
+                <TextInput
+                    style={styles.input}
                     placeholder="Senha"
                     value={formulario.senha}
                     onChangeText={(text) => lidarMudanca('senha', text)}
@@ -70,12 +81,15 @@ export default function Cadastro({ navigation }) {
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="Email"
-                    value={formulario.email}
-                    onChangeText={(text) => lidarMudanca('email', text)}
+                    placeholder="Digite a senha novamente"
+                    value={formulario.confirmarSenha}
+                    onChangeText={(text) => lidarMudanca('confirmarSenha', text)}
+                    secureTextEntry
                 />
+                {erro ? <Text style={styles.erro}>{erro}</Text> : null}
+                
                 <TouchableOpacity style={[styles.button, styles.buttonSecond]} onPress={lidarEnvio}>
-                    <Text>Cadastrar</Text>
+                    <Text style={[styles.text]}>Cadastrar</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button, styles.buttonPrimary]} onPress={() => navigation.navigate('Login')}>
                     <Text>Ir para Login</Text>

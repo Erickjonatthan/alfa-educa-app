@@ -49,4 +49,7 @@ export const styles = StyleSheet.create({
     fontSize: 28,
     textTransform: 'capitalize',
   },
+  text: {
+    color: 'white',
+  },
 });

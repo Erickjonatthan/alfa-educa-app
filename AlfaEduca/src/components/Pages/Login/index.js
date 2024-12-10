@@ -63,7 +63,7 @@ export default function Login({ navigation }) {
                     secureTextEntry
                 />
                 <TouchableOpacity style={[styles.button, styles.buttonSecond]} onPress={lidarEnvio}>
-                    <Text>Login</Text>
+                    <Text style={[styles.text]}>Login</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button, styles.buttonPrimary]} onPress={() => navigation.navigate('Cadastro')}>
                     <Text>Ir para Cadastro</Text>

@@ -49,4 +49,12 @@ export const styles = StyleSheet.create({
     fontSize: 28,
     textTransform: 'capitalize',
   },
+  erro: {
+    color: 'red',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  text: {
+    color: 'white',
+  },
 });
