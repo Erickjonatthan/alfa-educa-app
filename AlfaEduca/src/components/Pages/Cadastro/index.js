@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from './style';
 
 export default function Cadastro({ navigation }) {
@@ -16,9 +17,38 @@ export default function Cadastro({ navigation }) {
         });
     };
 
-    const lidarEnvio = () => {
-        // Lógica de cadastro
-        console.log('Cadastro:', formulario);
+      const lidarEnvio = async () => {
+        const body = JSON.stringify({
+            nome: formulario.user,
+            email: formulario.email,
+            senha: formulario.senha
+        });
+        try {
+            const response = await fetch('http://localhost:8080/cadastro', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: body
+            });
+    
+            if (response.status === 201) {
+                const data = await response.json();
+                await AsyncStorage.setItem('id', data.id);
+                await AsyncStorage.setItem('user', data.nome);
+                await AsyncStorage.setItem('email', data.email);
+                console.log('Cadastro bem-sucedido:', data);
+                Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
+                navigation.navigate('Login'); // Navegar para a página de login
+            } else {
+                const errorData = await response.text();
+                console.error('Erro no cadastro:', errorData);
+                Alert.alert('Erro', 'Falha ao realizar cadastro.');
+            }
+        } catch (error) {
+            console.error('Erro ao fazer cadastro:', error);
+            Alert.alert('Erro', 'Erro ao conectar com o servidor.');
+        }
     };
 
     return (

@@ -18,7 +18,7 @@ const Inicio = ({ navigation }) => {
                     <Text>Página 1</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Pagina2')}>
-                    <Ionicons name="cam" size={24} color="black" />
+                    <Ionicons name="camera" size={24} color="black" />
                     <Text>Página 2</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Pagina3')}>
