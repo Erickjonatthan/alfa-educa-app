@@ -18,7 +18,7 @@ export default function Login({ navigation }) {
         });
     };
 
-    const lidarEnvio = async () => {
+    const lidarEnvio = async () => { // Função para enviar os dados do formulário para a API
         try {
             const response = await fetch('http://172.29.11.176:8080/login', {
                 method: 'POST',

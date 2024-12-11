@@ -8,7 +8,7 @@ import { styles } from './style';
 export default function Inicio({ navigation }) {
     const [user, setUser] = useState(null);
 
-    useEffect(() => {
+    useEffect(() => { // Buscar as informações do usuário
         const fetchUserInfo = async () => {
             try {
                 const id = await AsyncStorage.getItem('contaId');
@@ -39,9 +39,7 @@ export default function Inicio({ navigation }) {
         <View style={styles.container}>
             {user && (
                 <>
-
                     <Text style={styles.title}>Bem-vindo ao AlfaEduca, {user.nome}</Text>
-
                 </>
             )}
 

@@ -4,6 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomNavigation from '../../BottomNavigation';
+import { styles } from './style';
 
 export default function Perfil({ navigation }) {
     const [image, setImage] = useState(null);
@@ -137,34 +138,3 @@ export default function Perfil({ navigation }) {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#fff',
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
-    },
-    button: {
-        backgroundColor: '#2196F3',
-        padding: 10,
-        borderRadius: 5,
-        marginTop: 20,
-    },
-    buttonText: {
-        color: '#fff',
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    profileImage: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
-        marginTop: 20,
-    },
-});
