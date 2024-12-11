@@ -1,33 +1,52 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import styles from './style';
+import React, { useEffect, useState } from 'react';
+import { View, Image, Text } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Inicio = ({ navigation }) => {
+import BottomNavigation from '../../BottomNavigation';
+import { styles } from './style';
+
+export default function Inicio({ navigation }) {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const id = await AsyncStorage.getItem('contaId');
+                const token = await AsyncStorage.getItem('token');
+                if (id && token) {
+                    const response = await fetch(`http://192.168.3.102:8080/cadastro/${id}`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    const userInfo = await response.json();
+                    if (userInfo) {
+                        setUser(userInfo);
+                        await AsyncStorage.setItem('user_info', JSON.stringify(userInfo));
+                    } else {
+                        console.error('Resposta da API está vazia');
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao buscar informações do usuário:', error);
+            }
+        };
+
+        fetchUserInfo();
+    }, []);
+
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.title}>Tela Inicial</Text>
-                <TouchableOpacity style={styles.settingsButton} onPress={() => navigation.navigate('Configurações')}>
-                    <Ionicons name="settings" size={24} color="black" />
-                </TouchableOpacity>
-            </View>
-            <View style={styles.footer}>
-                <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Camera')}>
-                    <Ionicons name="camera" size={24} color="black" />
-                    <Text>Câmera</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Inicio')}>
-                    <Ionicons name="home" size={24} color="black" />
-                    <Text>Início</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Perfil')}>
-                    <Ionicons name="person" size={24} color="black" />
-                    <Text>Perfil</Text>
-                </TouchableOpacity>
-            </View>
+            {user && (
+                <>
+
+                    <Text style={styles.title}>Bem-vindo ao AlfaEduca, {user.nome}</Text>
+
+                </>
+            )}
+
+            <Text style={styles.subtitle}>O que vamos aprender hoje?</Text>
+            <BottomNavigation navigation={navigation} />
         </View>
     );
-};
-
-export default Inicio;
+}

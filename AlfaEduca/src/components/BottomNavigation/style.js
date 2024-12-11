@@ -19,9 +19,20 @@ export const styles = StyleSheet.create({
     settingsButton: {
         padding: 10,
     },
-    profileImage: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
+    footer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        width: '100%',
+        padding: 10,
+        position: 'absolute',
+        bottom: 0,
+        backgroundColor: '#fff', // Adicione um fundo se necessário
+    },
+    iconButton: {
+        alignItems: 'center',
+    },
+    iconText: {
+        fontSize: 12,
     },
 });

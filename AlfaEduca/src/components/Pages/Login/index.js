@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CommonActions } from '@react-navigation/native';
 import { styles } from './style';
 
 export default function Login({ navigation }) {
@@ -18,10 +19,8 @@ export default function Login({ navigation }) {
     };
 
     const lidarEnvio = async () => {
-        console.log('Email:', formulario.email);
-        console.log('Senha:', formulario.senha);
         try {
-            const response = await fetch('http://localhost:8080/login', {
+            const response = await fetch('http://192.168.3.102:8080/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -35,9 +34,13 @@ export default function Login({ navigation }) {
             const data = await response.json();
             if (response.ok) {
                 await AsyncStorage.setItem('token', data.token);
-                await AsyncStorage.setItem('contaId', data.contaId);
-                console.log('Login bem-sucedido:', data);
-                navigation.navigate('Inicio'); // Navegar para a página inicial
+                await AsyncStorage.setItem('contaId', data.contaId.toString());
+                navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [{ name: 'Inicio' }],
+                    })
+                );
             } else {
                 console.error('Erro no login:', data);
             }
@@ -64,7 +67,7 @@ export default function Login({ navigation }) {
                     secureTextEntry
                 />
                 <TouchableOpacity style={[styles.button, styles.buttonSecond]} onPress={lidarEnvio}>
-                    <Text style={[styles.text]}>Login</Text>
+                    <Text style={styles.text}>Login</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button, styles.buttonPrimary]} onPress={() => navigation.navigate('Cadastro')}>
                     <Text>Ir para Cadastro</Text>

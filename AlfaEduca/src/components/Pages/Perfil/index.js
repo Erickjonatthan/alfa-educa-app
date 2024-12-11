@@ -1,67 +1,61 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, Alert, Modal, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert, StyleSheet } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { styles } from './style';
+import BottomNavigation from '../../BottomNavigation';
 
-export default function Perfil() {
+export default function Perfil({ navigation }) {
     const [image, setImage] = useState(null);
     const [base64Image, setBase64Image] = useState(null);
     const [token, setToken] = useState('');
     const [userId, setUserId] = useState('');
-    const [modalVisible, setModalVisible] = useState(false);
+    const [user, setUser] = useState(null);
+    const [tempImage, setTempImage] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             const storedToken = await AsyncStorage.getItem('token');
             const storedUserId = await AsyncStorage.getItem('contaId');
+            const user = await AsyncStorage.getItem('user_info');
             if (storedToken && storedUserId) {
                 setToken(storedToken);
                 setUserId(storedUserId);
+                setUser(JSON.parse(user));
             }
         };
         fetchData();
     }, []);
 
+    useFocusEffect(
+        React.useCallback(() => {
+            return () => {
+                setTempImage(null); // Limpa a imagem temporária quando a tela perde o foco
+            };
+        }, [])
+    );
+
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            mediaTypes: ['images', 'videos'],
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
+            base64: true, // Ativa o Base64 para facilitar o envio
         });
 
-        if (!result.canceled) {
-            setImage(result.uri);
-            const base64 = await convertToBase64(result.uri);
-            setBase64Image(base64);
-            setModalVisible(true);
+        if (!result.canceled && result.assets && result.assets.length > 0) {
+            setTempImage(result.assets[0].uri); // Configura a imagem temporária para exibição
+            setBase64Image(result.assets[0].base64); // Configura a imagem em Base64
+        } else {
+            Alert.alert('Aviso', 'Nenhuma imagem foi selecionada.');
         }
-    };
-
-    const convertToBase64 = (uri) => {
-        return new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.onload = function() {
-                const reader = new FileReader();
-                reader.onloadend = function() {
-                    resolve(reader.result.split(',')[1]);
-                };
-                reader.readAsDataURL(xhr.response);
-            };
-            xhr.onerror = function() {
-                reject(new Error('Failed to convert image to base64'));
-            };
-            xhr.open('GET', uri);
-            xhr.responseType = 'blob';
-            xhr.send();
-        });
     };
 
     const enviarImagem = async () => {
         if (base64Image) {
             try {
-                const response = await fetch(`http://localhost:8080/cadastro`, {
+                const response = await fetch(`http://192.168.3.102:8080/cadastro`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -74,6 +68,8 @@ export default function Perfil() {
                 });
 
                 if (response.ok) {
+                    setImage(tempImage); // Atualiza a imagem de perfil permanentemente
+                    setTempImage(null); // Limpa a imagem temporária
                     Alert.alert('Sucesso', 'Imagem enviada com sucesso!');
                 } else {
                     const errorData = await response.text();
@@ -84,79 +80,68 @@ export default function Perfil() {
                 console.error('Erro ao enviar imagem:', error);
                 Alert.alert('Erro', 'Erro ao conectar com o servidor.');
             }
+        } else {
+            Alert.alert('Erro', 'Nenhuma imagem selecionada.');
         }
-        setModalVisible(false);
+    };
+
+    const logout = async () => {
+        await AsyncStorage.clear();
+        navigation.navigate('Login');
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Perfil</Text>
+            {user && (
+                <>
+                    <Image source={{ uri: tempImage || `data:image/jpeg;base64,${user.imgPerfil}` }} style={styles.profileImage} />
+                    <Text>{user.nome}</Text>
+                    <Text>{user.email}</Text>
+                </>
+            )}
             <TouchableOpacity style={styles.button} onPress={pickImage}>
-                <Text style={styles.buttonText}>Anexar Foto</Text>
+                <Text style={styles.buttonText}>Escolher Foto</Text>
             </TouchableOpacity>
-            {image && <Image source={{ uri: image }} style={styles.profileImage} />}
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}
-            >
-                <View style={modalStyles.centeredView}>
-                    <View style={modalStyles.modalView}>
-                        <Text style={modalStyles.modalText}>Deseja enviar esta imagem?</Text>
-                        {image && <Image source={{ uri: image }} style={styles.profileImage} />}
-                        <TouchableOpacity
-                            style={[modalStyles.button, modalStyles.buttonClose]}
-                            onPress={enviarImagem}
-                        >
-                            <Text style={modalStyles.textStyle}>Enviar Imagem</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
+            {tempImage && (
+                <TouchableOpacity style={styles.button} onPress={enviarImagem}>
+                    <Text style={styles.buttonText}>Alterar Foto Perfil</Text>
+                </TouchableOpacity>
+            )}
+            <TouchableOpacity style={styles.button} onPress={logout}>
+                <Text style={styles.buttonText}>Logout</Text>
+            </TouchableOpacity>
+            <BottomNavigation navigation={navigation} />
         </View>
     );
 }
 
-const modalStyles = StyleSheet.create({
-    centeredView: {
+const styles = StyleSheet.create({
+    container: {
         flex: 1,
+        alignItems: 'center',
         justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
+        backgroundColor: '#fff',
     },
-    modalView: {
-        margin: 20,
-        backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 35,
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
     },
     button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-    },
-    buttonClose: {
         backgroundColor: '#2196F3',
+        padding: 10,
+        borderRadius: 5,
+        marginTop: 20,
     },
-    textStyle: {
-        color: 'white',
+    buttonText: {
+        color: '#fff',
         fontWeight: 'bold',
         textAlign: 'center',
     },
-    modalText: {
-        marginBottom: 15,
-        textAlign: 'center',
+    profileImage: {
+        width: 150,
+        height: 150,
+        borderRadius: 75,
+        marginTop: 20,
     },
 });

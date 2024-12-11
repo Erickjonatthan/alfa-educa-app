@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
     position: 'relative',
   },
   input: {
+    width: '80%',
     height: 45,
     borderWidth: 1,
     borderColor: '#ecf0f1',
@@ -45,6 +46,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
   },
   title: {
+    padding: 10,
     fontWeight: 'bold',
     fontSize: 28,
     textTransform: 'capitalize',

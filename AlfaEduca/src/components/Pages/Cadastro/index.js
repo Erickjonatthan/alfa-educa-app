@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
 import { styles } from './style';
 
 export default function Cadastro({ navigation }) {
@@ -33,7 +34,7 @@ export default function Cadastro({ navigation }) {
         });
 
         try {
-            const response = await fetch('http://localhost:8080/cadastro', {
+            const response = await fetch('http://192.168.3.102:8080/cadastro', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -44,7 +45,12 @@ export default function Cadastro({ navigation }) {
             if (response.status === 201) {
                 console.log('Cadastro bem-sucedido:', response);
                 Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
-                navigation.navigate('Login'); // Navegar para a página de login
+                navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [{ name: 'Inicio' }],
+                    })
+                );
             } else {
                 const errorData = await response.text();
                 console.error('Erro no cadastro:', errorData);
