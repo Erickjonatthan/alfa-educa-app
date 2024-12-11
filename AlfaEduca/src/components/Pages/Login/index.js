@@ -20,7 +20,7 @@ export default function Login({ navigation }) {
 
     const lidarEnvio = async () => { // Função para enviar os dados do formulário para a API
         try {
-            const response = await fetch('http://172.29.11.176:8080/login', {
+            const response = await fetch('https://alfa-educa-server.onrender.com/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

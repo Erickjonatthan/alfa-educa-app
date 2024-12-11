@@ -34,7 +34,7 @@ export default function Cadastro({ navigation }) {
         });
 
         try { // Enviar os dados do formulário para a API
-            const response = await fetch('http://172.29.11.176:8080/cadastro', {
+            const response = await fetch('https://alfa-educa-server.onrender.com/cadastro', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

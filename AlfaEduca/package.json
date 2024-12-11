@@ -1,5 +1,5 @@
 {
-  "name": "AlfaEduca",
+  "name": "alfa-educa-app",
   "license": "0BSD",
   "version": "1.0.0",
   "main": "index.js",
@@ -13,23 +13,27 @@
   "dependencies": {
     "@expo/metro-runtime": "~4.0.0",
     "@expo/vector-icons": "^14.0.4",
-    "@react-native-async-storage/async-storage": "^2.1.0",
+    "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/native": "^7.0.13",
     "@react-navigation/stack": "^7.0.18",
+    "alfa-educa-app": "file:",
+    "alfa-educa-app-": "file:",
+    "alfa-educa-app-renamed": "file:",
     "AlfaEduca": "file:",
+    "AlfaEducaApp": "file:",
     "axios": "^1.7.7",
     "depcheck": "^1.4.7",
-    "expo": "~52.0.8",
-    "expo-app-loading": "^1.0.3",
-    "expo-camera": "~16.0.7",
+    "expo": "~52.0.18",
+    "expo-camera": "~16.0.9",
     "expo-file-system": "^18.0.5",
     "expo-font": "~13.0.1",
     "expo-image-picker": "~16.0.3",
     "expo-speech": "~13.0.0",
+    "expo-splash-screen": "^0.29.18",
     "expo-status-bar": "~2.0.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-native": "0.76.2",
+    "react-native": "0.76.5",
     "react-native-image-base64": "^0.1.4",
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.1.0",
@@ -38,5 +42,12 @@
   "private": true,
   "devDependencies": {
     "expo-module-scripts": "^4.0.2"
+  },
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "listUnknownPackages": false
+      }
+    }
   }
 }

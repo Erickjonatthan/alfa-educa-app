@@ -56,7 +56,7 @@ export default function Perfil({ navigation }) {
     const enviarImagem = async () => {
         if (base64Image) {
             try {
-                const response = await fetch(`http://172.29.11.176:8080/cadastro`, {
+                const response = await fetch(`https://alfa-educa-server.onrender.com/cadastro`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ export default function Perfil({ navigation }) {
 
     const atualizarDadosUsuario = async () => {
         try {
-            const response = await fetch(`http://172.29.11.176:8080/cadastro/${userId}`, {
+            const response = await fetch(`https://alfa-educa-server.onrender.com/cadastro/${userId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`

@@ -30,10 +30,20 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/img/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.erick_sants.AlfaEduca"
     },
     "web": {
       "favicon": "./assets/img/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "147aa3c5-ab3e-40c4-925b-fde5aad0af0c"
+      }
     }
   }
 }
