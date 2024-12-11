@@ -48,7 +48,7 @@ export default function Cadastro({ navigation }) {
                 navigation.dispatch(
                     CommonActions.reset({
                         index: 0,
-                        routes: [{ name: 'Inicio' }],
+                        routes: [{ name: 'Login' }],
                     })
                 );
             } else {
