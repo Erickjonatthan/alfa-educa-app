@@ -1,22 +1,21 @@
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import * as Font from 'expo-font';
-import AppLoading from 'expo-app-loading';
 import styles from './style';
+import BottomNavigation from '../../BottomNavigation';
 
-export default function CameraUser() {
+export default function CameraUser({navigation}) {
   const [isFrontCamera, setIsFrontCamera] = useState(false);
   const [permission, requestPermission] = useCameraPermissions();
   const [text, setText] = useState('');
-  const [fontsLoaded] = Font.useFonts({
-    'DancingScript': require('./assets/fonts/Dancing_Script/DancingScript-VariableFont_wght.ttf'), // Substitua pelo caminho correto da fonte
-  });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
+  useEffect(() => {
+    return () => {
+      // Limpa a câmera quando o componente for desmontado
+      setIsFrontCamera(false);
+    };
+  }, []);
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -43,7 +42,7 @@ export default function CameraUser() {
       <CameraView style={styles.camera} facing={isFrontCamera ? 'front' : 'back'} />
       <View style={styles.overlay}>
         {text.split('').map((char, index) => (
-          <Text key={index} style={[styles.letter, { fontFamily: 'DancingScript' }]}>{char}</Text>
+          <Text key={index} style={styles.letter}>{char}</Text>
         ))}
       </View>
       <TextInput
@@ -57,6 +56,7 @@ export default function CameraUser() {
           <Text style={styles.text}>Inverter a Camera</Text>
         </TouchableOpacity>
       </View>
+      <BottomNavigation navigation={navigation} />
     </View>
   );
 }

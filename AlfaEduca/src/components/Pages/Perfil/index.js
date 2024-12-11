@@ -55,7 +55,7 @@ export default function Perfil({ navigation }) {
     const enviarImagem = async () => {
         if (base64Image) {
             try {
-                const response = await fetch(`http://192.168.3.102:8080/cadastro`, {
+                const response = await fetch(`http://172.29.11.176:8080/cadastro`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -71,6 +71,7 @@ export default function Perfil({ navigation }) {
                     setImage(tempImage); // Atualiza a imagem de perfil permanentemente
                     setTempImage(null); // Limpa a imagem temporária
                     Alert.alert('Sucesso', 'Imagem enviada com sucesso!');
+                    await atualizarDadosUsuario(); // Atualiza os dados do usuário
                 } else {
                     const errorData = await response.text();
                     console.error('Erro ao enviar imagem:', errorData);
@@ -82,6 +83,28 @@ export default function Perfil({ navigation }) {
             }
         } else {
             Alert.alert('Erro', 'Nenhuma imagem selecionada.');
+        }
+    };
+
+    const atualizarDadosUsuario = async () => {
+        try {
+            const response = await fetch(`http://172.29.11.176:8080/cadastro/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                const updatedUser = await response.json();
+                setUser(updatedUser);
+                await AsyncStorage.setItem('user_info', JSON.stringify(updatedUser));
+            } else {
+                const errorData = await response.text();
+                console.error('Erro ao atualizar dados do usuário:', errorData);
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar dados do usuário:', error);
         }
     };
 

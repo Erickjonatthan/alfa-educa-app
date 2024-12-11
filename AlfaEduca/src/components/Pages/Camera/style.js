@@ -48,6 +48,7 @@ export default StyleSheet.create({
     padding: 10,
     backgroundColor: 'blue',
     borderRadius: 5,
+    marginBottom: 40,
   },
   text: {
     fontSize: 24,

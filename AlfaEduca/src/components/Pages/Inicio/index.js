@@ -14,7 +14,7 @@ export default function Inicio({ navigation }) {
                 const id = await AsyncStorage.getItem('contaId');
                 const token = await AsyncStorage.getItem('token');
                 if (id && token) {
-                    const response = await fetch(`http://192.168.3.102:8080/cadastro/${id}`, {
+                    const response = await fetch(`http://172.29.11.176:8080/cadastro/${id}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }

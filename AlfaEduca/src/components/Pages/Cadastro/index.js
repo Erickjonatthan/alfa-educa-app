@@ -34,7 +34,7 @@ export default function Cadastro({ navigation }) {
         });
 
         try {
-            const response = await fetch('http://192.168.3.102:8080/cadastro', {
+            const response = await fetch('http://172.29.11.176:8080/cadastro', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

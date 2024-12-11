@@ -6,7 +6,7 @@ import Login from './src/components/Pages/Login';
 import Cadastro from './src/components/Pages/Cadastro';
 import Inicio from './src/components/Pages/Inicio';
 import Perfil from './src/components/Pages/Perfil';
-
+import CameraUser from './src/components/Pages/Camera';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -29,6 +29,7 @@ export default function App() {
         <Stack.Screen name="Cadastro" component={Cadastro} />
         <Stack.Screen name="Inicio" component={Inicio} />
         <Stack.Screen name="Perfil" component={Perfil} />
+        <Stack.Screen name="Camera" component={CameraUser} />
       </Stack.Navigator>
     </NavigationContainer>
   );

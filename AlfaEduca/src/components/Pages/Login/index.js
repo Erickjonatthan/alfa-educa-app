@@ -20,7 +20,7 @@ export default function Login({ navigation }) {
 
     const lidarEnvio = async () => {
         try {
-            const response = await fetch('http://192.168.3.102:8080/login', {
+            const response = await fetch('http://172.29.11.176:8080/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
