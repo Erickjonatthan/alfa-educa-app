@@ -1,4 +1,4 @@
-import { Tabs, useRouter } from 'expo-router';
+import { Tabs, useRouter} from 'expo-router';
 import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
 
@@ -16,13 +16,11 @@ export default function TabLayout() {
 
   useEffect(() => {
     if (isAuthenticated === false) {
-      console.log("mudando rota")
-      router.push('/'); // Redireciona para a tela de login se não estiver autenticado
+      router.push('/');
     }
   }, [isAuthenticated]);
 
   if (isAuthenticated === null) {
-    // Renderiza um indicador de carregamento enquanto verifica a autenticação
     return null;
   }
 
@@ -44,21 +42,43 @@ export default function TabLayout() {
             default: {},
           }),
         },
+        tabBarItemStyle: {
+          paddingVertical: 0, // Reduz o espaço vertical
+          marginHorizontal: -10, // Reduz o espaço horizontal entre os itens
+        },
+        animation: 'none',
       }}>
       <Tabs.Screen
         name="home"
         options={{
-          title: 'Home',
+          title: 'Início',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="camera"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Câmera',
+          tabBarIcon: ({ color }) => <IconSymbol size={21} name="camera" color={color} />
         }}
-        />
+        
+      />
+      <Tabs.Screen
+        name="tasks"
+        options={{
+          title: 'Atividades',
+          tabBarIcon: ({ color }) => <IconSymbol size={21} name="task.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Perfil',
+          tabBarIcon: ({ color }) => <IconSymbol size={21} name="user-alt" color={color} />,
+        }}
+      />
+
     </Tabs>
+    
   );
 }

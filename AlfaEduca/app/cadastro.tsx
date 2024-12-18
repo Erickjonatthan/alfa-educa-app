@@ -1,81 +1,63 @@
-import { Stack, useRouter } from 'expo-router';
-import { StyleSheet, TextInput, Button, Alert, ActivityIndicator, View, TouchableOpacity, useColorScheme } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router, Stack } from 'expo-router';
+import { StyleSheet, TextInput, Button, ActivityIndicator, View, TouchableOpacity, useColorScheme } from 'react-native';
+import React, { useState } from 'react';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Ionicons } from '@expo/vector-icons'; // Certifique-se de que o pacote @expo/vector-icons está instalado
+import { Ionicons } from '@expo/vector-icons';
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [nome, setNome] = useState('');
   const [loading, setLoading] = useState(false);
-  const [initialLoading, setInitialLoading] = useState(true); 
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
   const colorScheme = useColorScheme();
 
-  useEffect(() => {
-    const checkToken = async () => {
-      const token = await AsyncStorage.getItem('token');
-      if (token) {
-        router.push('/home');
-        setInitialLoading(false); // Define como falso se houver token
-      } else {
-        setInitialLoading(false); // Define como falso se não houver token
-      }
-    };
-
-    checkToken();
-  }, []);
-
-  const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert('Erro', 'Todos os campos são obrigatórios!');
+  const handleRegister = async () => {
+    if (!nome || !email || !password) {
+      alert('Todos os campos são obrigatórios!');
       return;
     }
 
     setLoading(true);
-    console.log('Iniciando login...');
     try {
-      const response = await fetch('https://alfa-educa-server.onrender.com/login', {
+      const response = await fetch('https://alfa-educa-server.onrender.com/cadastro', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ login: email, senha: password }),
+        body: JSON.stringify({ nome: nome, email: email, senha: password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        Alert.alert('Login Successful', `Welcome!`);
-        await AsyncStorage.setItem('token', data.token);
-        router.push('/home');
+        router.push('/');
       } else {
-        console.log('Falha no login:', data.message);
+        console.log('Falha no cadastro:', data.message);
       }
     } catch (error) {
-      console.log('Erro durante o login:', error);
+      console.log('Erro durante o cadastro:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  if (initialLoading) {
-    // Mostra um indicador de carregamento enquanto verifica o token
-    return (
-      <ThemedView style={styles.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </ThemedView>
-    );
-  }
-
   return (
     <>
-      <Stack.Screen options={{ title: 'Entrar', headerShown: false }} />
+      <Stack.Screen options={{ title: 'Cadastro', headerShown: false }} />
       <ThemedView style={styles.container}>
-        <ThemedText type="title">Entrar</ThemedText>
+        <ThemedText type="title">Cadastro</ThemedText>
+        <TextInput
+          style={[
+            styles.input,
+            colorScheme === 'dark' ? styles.inputDark : styles.inputLight,
+          ]}
+          placeholder="Nome"
+          placeholderTextColor={colorScheme === 'dark' ? '#000' : '#fff'}
+          value={nome}
+          onChangeText={setNome}
+        />
         <TextInput
           style={[
             styles.input,
@@ -111,9 +93,8 @@ export default function LoginScreen() {
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <>
-            <Button title="Entrar" onPress={handleLogin} />
-            <ThemedText style={{ textAlign: 'center' }}>ou</ThemedText>
-            <Button title="Cadastrar-se" onPress={() => router.push('/cadastro')} />
+          <Button title="Cadastrar" onPress={handleRegister} />
+          <Button title="Voltar" onPress={() => router.push('./')} />
           </>
         )}
       </ThemedView>

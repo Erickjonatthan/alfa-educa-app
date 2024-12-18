@@ -1,18 +1,20 @@
-// This file is a fallback for using MaterialIcons on Android and web.
-
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import Feather from '@expo/vector-icons/Feather';
 import { SymbolWeight } from 'expo-symbols';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 import React from 'react';
 import { OpaqueColorValue, StyleProp, TextStyle } from 'react-native';
 
-// Add your SFSymbol to MaterialIcons mappings here.
 const MAPPING = {
-  // See MaterialIcons here: https://icons.expo.fyi
-  // See SF Symbols in the SF Symbols app on Mac.
   'house.fill': 'home',
   'paperplane.fill': 'send',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
+  'user-alt': 'user-alt',
+  'logout': 'logout',
 } as Partial<
   Record<
     import('expo-symbols').SymbolViewProps['name'],
@@ -20,13 +22,8 @@ const MAPPING = {
   >
 >;
 
-export type IconSymbolName = keyof typeof MAPPING;
+export type IconSymbolName = keyof typeof MAPPING | 'task.fill' | 'user-alt' | 'camera' | 'settings' | 'user-edit' | 'trophy' | 'arrow-back' | 'logout';
 
-/**
- * An icon component that uses native SFSymbols on iOS, and MaterialIcons on Android and web. This ensures a consistent look across platforms, and optimal resource usage.
- *
- * Icon `name`s are based on SFSymbols and require manual mapping to MaterialIcons.
- */
 export function IconSymbol({
   name,
   size = 24,
@@ -39,5 +36,29 @@ export function IconSymbol({
   style?: StyleProp<TextStyle>;
   weight?: SymbolWeight;
 }) {
+  if (name === 'task.fill') {
+    return <FontAwesome5 name="tasks" size={size} color={color} style={style} />;
+  }
+  if (name === 'user-alt') {
+    return <FontAwesome5 name="user-alt" size={size} color={color} style={style} />;
+  }
+  if (name === 'camera') {
+    return <FontAwesome5 name="camera" size={size} color={color} style={style} />;
+  }
+  if (name === 'settings') {
+    return <Feather name="settings" size={size} color={color} style={style} />;
+  }
+  if (name === 'user-edit') {
+    return <FontAwesome5 name="user-edit" size={size} color={color} style={style} />;
+  }
+  if (name === 'trophy') {
+    return <AntDesign name="Trophy" size={size} color={color} style={style} />;
+  }
+  if (name === 'arrow-back') {
+    return <Ionicons name="arrow-back" size={size} color={color} style={style} />;
+  }
+  if (name === 'logout') {
+    return <MaterialIcons name="logout" size={size} color={color} style={style} />;
+  }
   return <MaterialIcons color={color} size={size} name={MAPPING[name]} style={style} />;
 }
