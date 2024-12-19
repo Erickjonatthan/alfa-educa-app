@@ -1,10 +1,11 @@
 import { Stack, useRouter } from 'expo-router';
-import { StyleSheet, TextInput, Button, Alert, ActivityIndicator, View, TouchableOpacity, useColorScheme } from 'react-native';
+import { StyleSheet, TextInput, Button, Alert, ActivityIndicator, View, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Ionicons } from '@expo/vector-icons'; // Certifique-se de que o pacote @expo/vector-icons está instalado
+import { Ionicons } from '@expo/vector-icons';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');

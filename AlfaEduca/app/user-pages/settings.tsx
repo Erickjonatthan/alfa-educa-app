@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity, useColorScheme, Alert } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Link, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function ProfileSettingsScreen() {
   const colorScheme = useColorScheme();

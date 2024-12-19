@@ -1,8 +1,9 @@
-import { StyleSheet, ScrollView, View, Image, TouchableOpacity, useColorScheme } from 'react-native';
+import { StyleSheet, ScrollView, View, Image, TouchableOpacity } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useRouter } from 'expo-router';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme();

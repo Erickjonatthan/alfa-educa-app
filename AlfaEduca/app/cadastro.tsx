@@ -1,9 +1,10 @@
 import { router, Stack } from 'expo-router';
-import { StyleSheet, TextInput, Button, ActivityIndicator, View, TouchableOpacity, useColorScheme } from 'react-native';
+import { StyleSheet, TextInput, Button, ActivityIndicator, View, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState('');
