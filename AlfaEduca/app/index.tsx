@@ -19,7 +19,7 @@ export default function LoginScreen() {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem('token');
       if (token) {
-        router.push('/home');
+        router.push('/pages/home');
         setInitialLoading(false); // Define como falso se houver token
       } else {
         setInitialLoading(false); // Define como falso se não houver token
@@ -51,7 +51,7 @@ export default function LoginScreen() {
       if (response.ok) {
         Alert.alert('Login Successful', `Welcome!`);
         await AsyncStorage.setItem('token', data.token);
-        router.push('/home');
+        router.push('/pages/home');
       } else {
         console.log('Falha no login:', data.message);
       }

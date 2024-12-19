@@ -25,7 +25,7 @@ export default function ProfileSettingsScreen() {
     <ScrollView contentContainerStyle={[styles.container, isDarkMode ? styles.containerDark : styles.containerLight]}>
       <ThemedView style={styles.titleContainer}>
         <TouchableOpacity style={styles.backButton}>
-          <Link href={'/profile'}><IconSymbol name="arrow-back" size={24} color={isDarkMode ? "#fff" : "#000"} /></Link>
+          <Link href={'/pages/profile'}><IconSymbol name="arrow-back" size={24} color={isDarkMode ? "#fff" : "#000"} /></Link>
         </TouchableOpacity>
         <ThemedText type="title" style={styles.title}>Configurações</ThemedText>
       </ThemedView>
