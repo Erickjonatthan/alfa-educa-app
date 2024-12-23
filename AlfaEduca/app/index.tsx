@@ -1,158 +1,115 @@
-import { Stack, useRouter } from 'expo-router';
-import { StyleSheet, TextInput, Button, Alert, ActivityIndicator, View, TouchableOpacity } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
+import { TextInput, ActivityIndicator, View, TouchableOpacity, Alert } from 'react-native';
+import React, { useState } from 'react';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { useCheckToken } from '@/hooks/useCheckToken';
+import { useLogin } from '@/hooks/useLogin';
+import { useShowGif } from '@/hooks/useShowGif';
+import { Image } from 'expo-image';
+import styles from './styles/login';
+import { useEmailValidation } from '@/hooks/useEmailValidation';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [initialLoading, setInitialLoading] = useState(true); 
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const colorScheme = useColorScheme();
+  const initialLoading = useCheckToken();
+  const { handleLogin, loading } = useLogin();
+  const showGif = useShowGif();
+  const { validateEmail } = useEmailValidation();
 
-  useEffect(() => {
-    const checkToken = async () => {
-      const token = await AsyncStorage.getItem('token');
-      if (token) {
-        router.push('/pages/home');
-        setInitialLoading(false); // Define como falso se houver token
-      } else {
-        setInitialLoading(false); // Define como falso se não houver token
+  const handleLoginPress = () => {
+    if(email){
+      if (!validateEmail(email)) {
+        Alert.alert('Erro', 'Por favor, insira um email válido.');
+        return;
       }
-    };
-
-    checkToken();
-  }, []);
-
-  const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert('Erro', 'Todos os campos são obrigatórios!');
-      return;
     }
-
-    setLoading(true);
-    console.log('Iniciando login...');
-    try {
-      const response = await fetch('https://alfa-educa-server.onrender.com/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ login: email, senha: password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        Alert.alert('Login Successful', `Welcome!`);
-        await AsyncStorage.setItem('token', data.token);
-        router.push('/pages/home');
-      } else {
-        console.log('Falha no login:', data.message);
-      }
-    } catch (error) {
-      console.log('Erro durante o login:', error);
-    } finally {
-      setLoading(false);
-    }
+    handleLogin(email, password);
   };
 
   if (initialLoading) {
-    // Mostra um indicador de carregamento enquanto verifica o token
     return (
       <ThemedView style={styles.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#FFFFFFFF" />
       </ThemedView>
     );
   }
 
   return (
-    <>
-      <Stack.Screen options={{ title: 'Entrar', headerShown: false }} />
-      <ThemedView style={styles.container}>
-        <ThemedText type="title">Entrar</ThemedText>
+    <ThemedView style={styles.container}>
+      {showGif ? (
+        <Image
+          style={styles.logo}
+          source={require('@/assets/images/alfaeduca.gif')}
+          contentFit="cover"
+        />
+      ) : (
+        <Image
+          style={styles.logo}
+          source={require('@/assets/images/alfaeduca-logo.jpg')}
+          contentFit="cover"
+        />
+      )}
+      <ThemedText type="title" style={styles.title}> Entrar </ThemedText>
+      <ThemedText type='default' style={styles.subtitle}>Continue sua jornada de aprendizado e descubra novas conquistas hoje!</ThemedText>
+
+      <ThemedText type='default' style={styles.registerPrompt}>Email</ThemedText>
+      <TextInput
+        style={[
+          styles.input,
+          colorScheme === 'dark' ? styles.inputDark : styles.inputLight,
+        ]}
+        placeholder="Digite seu email"
+        placeholderTextColor={colorScheme === 'dark' ? '#FFFFFF89' : '#0000009C'}
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
+        editable={!loading}
+      />
+      <ThemedText type='default' style={styles.registerPrompt}>Senha</ThemedText>
+      <View style={[
+        styles.passwordContainer,
+        colorScheme === 'dark' ? styles.inputDark : styles.inputLight,
+      ]}>
         <TextInput
           style={[
-            styles.input,
+            styles.passwordInput,
             colorScheme === 'dark' ? styles.inputDark : styles.inputLight,
           ]}
-          placeholder="Email"
-          placeholderTextColor={colorScheme === 'dark' ? '#000' : '#fff'}
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
+          placeholder="Digite sua senha"
+          placeholderTextColor={colorScheme === 'dark' ? '#FFFFFF89' : '#0000009C'}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={!showPassword}
+          editable={!loading}
         />
-        <View style={[
-          styles.passwordContainer,
-          colorScheme === 'dark' ? styles.inputDark : styles.inputLight,
-        ]}>
-          <TextInput
-            style={[
-              styles.passwordInput,
-              colorScheme === 'dark' ? styles.inputDark : styles.inputLight,
-            ]}
-            placeholder="Senha"
-            placeholderTextColor={colorScheme === 'dark' ? '#000' : '#fff'}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-          />
-          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-            <Ionicons name={showPassword ? 'eye-off' : 'eye'} size={24} color="gray" />
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)} disabled={loading}>
+          <Ionicons name={showPassword ? 'eye-off' : 'eye'} size={24} color="gray" />
+        </TouchableOpacity>
+      </View>
+      <TouchableOpacity style={{ width: '100%' }} onPress={() => router.push('/forgot-password')}>
+        <ThemedText type='link' style={styles.forgotPassword}>Esqueceu sua senha?</ThemedText>
+      </TouchableOpacity>
+      {loading ? (
+        <ActivityIndicator size="large" color="#FFFFFFFF" />
+      ) : (
+        <>
+          <TouchableOpacity style={styles.loginButton} onPress={handleLoginPress}>
+            <ThemedText style={styles.loginButtonText}>Entrar</ThemedText>
           </TouchableOpacity>
-        </View>
-        {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-          <>
-            <Button title="Entrar" onPress={handleLogin} />
-            <ThemedText style={{ textAlign: 'center' }}>ou</ThemedText>
-            <Button title="Cadastrar-se" onPress={() => router.push('/cadastro')} />
-          </>
-        )}
-      </ThemedView>
-    </>
+          <ThemedText type='default' style={styles.registerPrompt}>Ainda não possui uma conta?</ThemedText>
+          <TouchableOpacity style={styles.registerButton} onPress={() => router.push('/cadastro')}>
+            <ThemedText style={styles.registerButtonText}>Cadastrar-se</ThemedText>
+          </TouchableOpacity>
+        </>
+      )}
+    </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 16,
-  },
-  input: {
-    height: 40, // Definindo uma altura fixa para os inputs
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8,
-  },
-  inputLight: {
-    backgroundColor: '#000',
-    color: '#fff',
-  },
-  inputDark: {
-    backgroundColor: '#fff',
-    color: '#000',
-  },
-  passwordContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8,
-    height: 40, // Definindo uma altura fixa para o contêiner de senha
-  },
-  passwordInput: {
-    flex: 1, // Faz com que o input de senha ocupe o espaço restante
-  },
-});

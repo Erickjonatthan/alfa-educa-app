@@ -1,76 +1,76 @@
-import { router, Stack } from 'expo-router';
-import { StyleSheet, TextInput, Button, ActivityIndicator, View, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Image } from 'expo-image';
+import { TextInput, ActivityIndicator, View, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { useRegister } from '@/hooks/useRegister';
+import { useEmailValidation } from '@/hooks/useEmailValidation';
+import styles from './styles/register';
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [nome, setNome] = useState('');
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const colorScheme = useColorScheme();
+  const { handleRegister, loading } = useRegister();
+  const { validateEmail } = useEmailValidation();
+  const router = useRouter();
 
-  const handleRegister = async () => {
-    if (!nome || !email || !password) {
-      alert('Todos os campos são obrigatórios!');
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await fetch('https://alfa-educa-server.onrender.com/cadastro', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nome: nome, email: email, senha: password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        router.push('/');
-      } else {
-        console.log('Falha no cadastro:', data.message);
+  const handleRegisterPress = () => {
+    if(email){
+      if (!validateEmail(email)) {
+        Alert.alert('Erro', 'Por favor, insira um email válido.');
+        return;
       }
-    } catch (error) {
-      console.log('Erro durante o cadastro:', error);
-    } finally {
-      setLoading(false);
-    }
+    }	
+    handleRegister(nome, email, password, confirmPassword);
   };
 
   return (
-    <>
-      <Stack.Screen options={{ title: 'Cadastro', headerShown: false }} />
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
       <ThemedView style={styles.container}>
-        <ThemedText type="title">Cadastro</ThemedText>
+        <Image
+          style={styles.logo}
+          source={require('@/assets/images/alfaeduca-logo.jpg')}
+          contentFit="cover"
+        />
+
+        <ThemedText type="title" style={styles.title}> Cadastro </ThemedText>
+        <ThemedText type='default' style={styles.subtitle}>Bem-vindo ao AlfaEduca, aqui nós ajudamos você a explorar o mundo da alfabetização com motivação e criatividade.</ThemedText>
+        <ThemedText type='default' style={styles.registerPrompt}>Nome de usuário</ThemedText>
         <TextInput
           style={[
             styles.input,
             colorScheme === 'dark' ? styles.inputDark : styles.inputLight,
           ]}
-          placeholder="Nome"
-          placeholderTextColor={colorScheme === 'dark' ? '#000' : '#fff'}
+          placeholder="Digite seu nome e sobrenome"
+          placeholderTextColor={colorScheme === 'dark' ? '#FFFFFF89' : '#0000009C'}
           value={nome}
           onChangeText={setNome}
+          keyboardType="default"
+          autoCapitalize="words"
+          editable={!loading}
         />
+        <ThemedText type='default' style={styles.registerPrompt}>Email</ThemedText>
         <TextInput
           style={[
             styles.input,
             colorScheme === 'dark' ? styles.inputDark : styles.inputLight,
           ]}
-          placeholder="Email"
-          placeholderTextColor={colorScheme === 'dark' ? '#000' : '#fff'}
+          placeholder="Digite o email que você mais usa"
+          placeholderTextColor={colorScheme === 'dark' ? '#FFFFFF89' : '#0000009C'}
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
           autoCapitalize="none"
+          editable={!loading}
         />
+        <ThemedText type='default' style={styles.registerPrompt}>Senha</ThemedText>
         <View style={[
           styles.passwordContainer,
           colorScheme === 'dark' ? styles.inputDark : styles.inputLight,
@@ -80,60 +80,43 @@ export default function RegisterScreen() {
               styles.passwordInput,
               colorScheme === 'dark' ? styles.inputDark : styles.inputLight,
             ]}
-            placeholder="Senha"
-            placeholderTextColor={colorScheme === 'dark' ? '#000' : '#fff'}
+            placeholder="Digite sua senha"
+            placeholderTextColor={colorScheme === 'dark' ? '#FFFFFF89' : '#0000009C'}
             value={password}
             onChangeText={setPassword}
             secureTextEntry={!showPassword}
+            editable={!loading}
           />
-          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <TouchableOpacity onPress={() => setShowPassword(!showPassword)} disabled={loading}>
             <Ionicons name={showPassword ? 'eye-off' : 'eye'} size={24} color="gray" />
           </TouchableOpacity>
         </View>
+        <ThemedText type='default' style={styles.registerPrompt}>Confirmar Senha</ThemedText>
+        <TextInput
+          style={[
+            styles.input,
+            colorScheme === 'dark' ? styles.inputDark : styles.inputLight,
+          ]}
+          placeholder="Confirme sua senha"
+          placeholderTextColor={colorScheme === 'dark' ? '#FFFFFF89' : '#0000009C'}
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry={true}
+          editable={!loading}
+        />
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <>
-          <Button title="Cadastrar" onPress={handleRegister} />
-          <Button title="Voltar" onPress={() => router.push('./')} />
+            <TouchableOpacity style={styles.registerButton} onPress={handleRegisterPress}>
+              <ThemedText style={styles.loginButtonText}>Cadastrar</ThemedText>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.backButton} onPress={() => router.push('/')}>
+              <ThemedText style={styles.backButtonText}>Voltar</ThemedText>
+            </TouchableOpacity>
           </>
         )}
       </ThemedView>
-    </>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 16,
-  },
-  input: {
-    height: 40, // Definindo uma altura fixa para os inputs
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8,
-  },
-  inputLight: {
-    backgroundColor: '#000',
-    color: '#fff',
-  },
-  inputDark: {
-    backgroundColor: '#fff',
-    color: '#000',
-  },
-  passwordContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8,
-    height: 40, // Definindo uma altura fixa para o contêiner de senha
-  },
-  passwordInput: {
-    flex: 1, // Faz com que o input de senha ocupe o espaço restante
-  },
-});

@@ -1,5 +1,5 @@
-import { Tabs} from 'expo-router';
-import React from 'react';
+import { router, Tabs, usePathname} from 'expo-router';
+import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
 
 import { HapticTab } from '@/components/HapticTab';
@@ -7,9 +7,18 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const isAuthenticated = useAuth();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (isAuthenticated === false && (pathname.startsWith('/pages') || pathname.startsWith('/user-pages'))) {
+      router.push('/');
+    }
+  }, [isAuthenticated, pathname, router]);
 
   return (
     <Tabs
@@ -29,23 +38,19 @@ export default function TabLayout() {
             default: {},
           }),
         },
-        tabBarItemStyle: {
-          paddingVertical: 0, // Reduz o espaço vertical
-          marginHorizontal: -10, // Reduz o espaço horizontal entre os itens
-        },
         animation: 'none',
       }}>
       <Tabs.Screen
         name="home"
         options={{
-          title: 'Início',
+          title: ' Início ',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
       <Tabs.Screen
         name="camera"
         options={{
-          title: 'Câmera',
+          title: ' Câmera ',
           tabBarIcon: ({ color }) => <IconSymbol size={21} name="camera" color={color} />
         }}
         
@@ -53,14 +58,14 @@ export default function TabLayout() {
       <Tabs.Screen
         name="tasks"
         options={{
-          title: 'Atividades',
+          title: 'Atividades ',
           tabBarIcon: ({ color }) => <IconSymbol size={21} name="task.fill" color={color} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Perfil',
+          title: ' Perfil ',
           tabBarIcon: ({ color }) => <IconSymbol size={21} name="user-alt" color={color} />,
         }}
       />

@@ -14,7 +14,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#FF0000FF"
+        "backgroundColor": "#4E1D54"
       },
       "package": "com.erick_sants.AlfaEduca"
     },
@@ -31,7 +31,7 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#FFFFFFFF"
+          "backgroundColor": "#4E1D54"
         }
       ]
     ],

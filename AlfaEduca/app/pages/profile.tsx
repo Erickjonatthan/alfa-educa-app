@@ -15,7 +15,7 @@ export default function ProfileScreen() {
   };
 
   const handleAchievements = () => {
-    router.push('/'); 
+    router.push('/user-pages/achievements'); 
   };
 
   const handleSettings = () => {
