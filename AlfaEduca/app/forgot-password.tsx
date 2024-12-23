@@ -48,6 +48,7 @@ export default function ForgotPasswordScreen() {
       <ThemedText type='default' style={styles.subtitle}>Para redefinir sua senha, digite o email que foi cadastrado com sua conta. Você receberá uma nova senha que deve ser alterada depois.</ThemedText>
 
       <ThemedText type='default' style={styles.registerPrompt}>Email</ThemedText>
+      
       <TextInput
         style={[
           styles.input,
@@ -61,6 +62,7 @@ export default function ForgotPasswordScreen() {
         autoCapitalize="none"
         editable={!loading}
       />
+      
       {loading ? (
         <ActivityIndicator size="large" color="#FFFFFFFF" />
       ) : (
