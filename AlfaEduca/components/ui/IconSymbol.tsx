@@ -57,6 +57,9 @@ export function IconSymbol({
   if (name === 'arrow-back') {
     return <Ionicons name="arrow-back" size={size} color={color} style={style} />;
   }
+  if (name === 'play') { 
+    return <FontAwesome5 name="play" size={size} color={color} style={style} />;
+  }
   if (name === 'logout') {
     return <MaterialIcons name="logout" size={size} color={color} style={style} />;
   }
