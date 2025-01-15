@@ -1,13 +1,12 @@
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
-import { TextInput, ActivityIndicator, View, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { TextInput, ActivityIndicator, View, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useRegister } from '@/hooks/useRegister';
-import { useEmailValidation } from '@/hooks/useEmailValidation';
 import styles from './styles/register';
 
 export default function RegisterScreen() {
@@ -18,16 +17,9 @@ export default function RegisterScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const colorScheme = useColorScheme();
   const { handleRegister, loading } = useRegister();
-  const { validateEmail } = useEmailValidation();
   const router = useRouter();
 
   const handleRegisterPress = () => {
-    if(email){
-      if (!validateEmail(email)) {
-        Alert.alert('Erro', 'Por favor, insira um email válido.');
-        return;
-      }
-    }	
     handleRegister(nome, email, password, confirmPassword);
   };
 

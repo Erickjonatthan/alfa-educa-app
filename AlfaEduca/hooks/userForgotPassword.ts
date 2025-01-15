@@ -1,14 +1,22 @@
 import { useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 
 export function useForgotPassword() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  const showAlert = (title: string, message: string) => {
+    if (Platform.OS === 'web') {
+      window.alert(`${title}: ${message}`);
+    } else {
+      Alert.alert(title, message);
+    }
+  };
+
   const handleForgotPassword = async (email: string) => {
     if (!email) {
-      Alert.alert('Erro', 'O campo de email é obrigatório!');
+      showAlert('Erro', 'O campo de email é obrigatório!');
       return;
     }
 
@@ -31,29 +39,29 @@ export function useForgotPassword() {
       }
 
       if (response.ok) {
-        Alert.alert('Sucesso', 'Um email com instruções para redefinir sua senha foi enviado.');
+        showAlert('Sucesso', 'Um email com instruções para redefinir sua senha foi enviado.');
         router.push('/');
       } else {
         console.log('Falha ao enviar email:', response.status);
         switch (response.status) {
           case 400:
-            Alert.alert('Erro', 'Requisição inválida. Verifique os dados e tente novamente.');
+            showAlert('Erro', 'Requisição inválida. Verifique os dados e tente novamente.');
             break;
           case 404:
-            Alert.alert('Erro', 'Email não encontrado. Verifique o email e tente novamente.');
+            showAlert('Erro', 'Email não encontrado. Verifique o email e tente novamente.');
             break;
           case 500:
-            Alert.alert('Erro', 'Erro no servidor. Tente novamente mais tarde.');
+            showAlert('Erro', 'Erro no servidor. Tente novamente mais tarde.');
             break;
           default:
-            Alert.alert('Erro', 'Ocorreu um erro. Tente novamente.');
+            showAlert('Erro', 'Ocorreu um erro. Tente novamente.');
             break;
         }
         console.log('Falha ao enviar email:', data.message || data);
       }
     } catch (error) {
       console.log('Erro durante o envio do email:', error);
-      Alert.alert('Erro', 'Ocorreu um erro ao enviar o email. Tente novamente.');
+      showAlert('Erro', 'Ocorreu um erro ao enviar o email. Tente novamente.');
     } finally {
       setLoading(false);
     }

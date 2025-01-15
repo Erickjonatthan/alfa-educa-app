@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { TextInput, ActivityIndicator, View, TouchableOpacity, Alert } from 'react-native';
+import { TextInput, ActivityIndicator, View, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -10,7 +10,6 @@ import { useLogin } from '@/hooks/useLogin';
 import { useShowGif } from '@/hooks/useShowGif';
 import { Image } from 'expo-image';
 import styles from './styles/login';
-import { useEmailValidation } from '@/hooks/useEmailValidation';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -21,15 +20,8 @@ export default function LoginScreen() {
   const initialLoading = useCheckToken();
   const { handleLogin, loading } = useLogin();
   const showGif = useShowGif();
-  const { validateEmail } = useEmailValidation();
 
   const handleLoginPress = () => {
-    if(email){
-      if (!validateEmail(email)) {
-        Alert.alert('Erro', 'Por favor, insira um email válido.');
-        return;
-      }
-    }
     handleLogin(email, password);
   };
 

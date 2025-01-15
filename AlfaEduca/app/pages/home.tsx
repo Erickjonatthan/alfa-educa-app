@@ -19,7 +19,7 @@ export default function HomeScreen() {
     <ScrollView contentContainerStyle={[styles.container, isDarkMode ? styles.containerDark : styles.containerLight]}>
       <View style={styles.imageContainer}>
         <Image
-          source={require('@/assets/images/alfaeduca-lateral.jpg')}
+          source={require('@/assets/images/alfaeduca-lateral.png')}
           style={styles.logoImage}
         />
       </View>

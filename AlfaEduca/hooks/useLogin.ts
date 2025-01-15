@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 
@@ -7,9 +7,27 @@ export function useLogin() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const showAlert = (title: string, message: string) => {
+    if (Platform.OS === 'web') {
+      window.alert(`${title}: ${message}`);
+    } else {
+      Alert.alert(title, message);
+    }
+  };
+
   const handleLogin = async (email: string, password: string) => {
     if (!email || !password) {
-      Alert.alert('Erro', 'Todos os campos são obrigatórios!');
+      showAlert('Erro', 'Todos os campos são obrigatórios!');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      showAlert('Erro', 'Por favor, insira um email válido.');
       return;
     }
 
@@ -39,23 +57,23 @@ export function useLogin() {
         console.log('Falha no login:', response.status);
         switch (response.status) {
           case 400:
-            Alert.alert('Erro', 'Requisição inválida. Verifique os dados e tente novamente.');
+            showAlert('Erro', 'Requisição inválida. Verifique os dados e tente novamente.');
             break;
           case 401:
-            Alert.alert('Erro', 'Email ou senha inválido. Tente novamente.');
+            showAlert('Erro', 'Email ou senha inválido. Tente novamente.');
             break;
           case 500:
-            Alert.alert('Erro', 'Erro no servidor. Tente novamente mais tarde.');
+            showAlert('Erro', 'Erro no servidor. Tente novamente mais tarde.');
             break;
           default:
-            Alert.alert('Erro', 'Ocorreu um erro. Tente novamente.');
+            showAlert('Erro', 'Ocorreu um erro. Tente novamente.');
             break;
         }
         console.log('Falha no login:', data.message || data);
       }
     } catch (error) {
       console.log('Erro durante o login:', error);
-      Alert.alert('Erro', 'Ocorreu um erro durante o login. Tente novamente.');
+      showAlert('Erro', 'Ocorreu um erro durante o login. Tente novamente.');
     } finally {
       setLoading(false);
     }

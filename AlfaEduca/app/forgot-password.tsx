@@ -1,33 +1,19 @@
 import { useRouter } from 'expo-router';
-import { TextInput, ActivityIndicator, TouchableOpacity, Alert } from 'react-native';
-import React, { useState } from 'react';
+import { TextInput, ActivityIndicator, TouchableOpacity } from 'react-native';
+import React from 'react';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useCheckToken } from '@/hooks/useCheckToken';
 import { Image } from 'expo-image';
 import styles from './styles/login';
-import { useForgotPassword } from '@/hooks/userForgotPassword';
-import { useEmailValidation } from '@/hooks/useEmailValidation';
+import { useForgotPasswordPress } from '@/hooks/useForgotPasswordPress';
 
 export default function ForgotPasswordScreen() {
-  const [email, setEmail] = useState('');
   const router = useRouter();
   const colorScheme = useColorScheme();
   const initialLoading = useCheckToken();
-  const { handleForgotPassword, loading } = useForgotPassword();
-  const { validateEmail } = useEmailValidation();
-
-  const handleForgotPasswordPress = () => {
-    if(email){
-      if (!validateEmail(email)) {
-        Alert.alert('Erro', 'Por favor, insira um email válido.');
-        return;
-      }
-    }
-
-    handleForgotPassword(email);
-  };
+  const { email, setEmail, handleForgotPasswordPress, loading } = useForgotPasswordPress();
 
   if (initialLoading) {
     return (
