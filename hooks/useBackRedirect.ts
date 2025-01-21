@@ -12,7 +12,7 @@ export function useBackRedirect() {
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
-        if (pathname.startsWith('/user-pages')) {
+        if (pathname.startsWith('/profile-pages')) {
           router.push('/pages/profile');
           return true;
         } else if (pathname.startsWith('/pages') && pathname !== '/pages/home') {

@@ -51,8 +51,16 @@ export function useLogin() {
       }
 
       if (response.ok) {
-        await AsyncStorage.setItem('token', data.token);
-        router.push('/pages/home');
+        const { dadosToken, isAdmin } = data;
+        await AsyncStorage.setItem('token', dadosToken.token);
+        await AsyncStorage.setItem('isAdmin', JSON.stringify(isAdmin));
+        await AsyncStorage.setItem('userId', dadosToken.contaId);
+        console.log('isAdmin:', isAdmin);
+        if(isAdmin) {
+          router.push('/admin-pages/home');
+        } else {
+          router.push('/pages/home');
+        }
       } else {
         console.log('Falha no login:', response.status);
         switch (response.status) {

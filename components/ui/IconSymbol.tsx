@@ -5,6 +5,7 @@ import { SymbolWeight } from 'expo-symbols';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+
 import React from 'react';
 import { OpaqueColorValue, StyleProp, TextStyle } from 'react-native';
 
@@ -22,7 +23,7 @@ const MAPPING = {
   >
 >;
 
-export type IconSymbolName = keyof typeof MAPPING | 'task.fill' | 'user-alt' | 'camera' | 'settings' | 'user-edit' | 'trophy' | 'arrow-back' | 'logout';
+export type IconSymbolName = keyof typeof MAPPING | 'task.fill' | 'user-alt' | 'camera' | 'settings' | 'user-edit' | 'trophy' | 'arrow-back' | 'logout' | 'users';
 
 export function IconSymbol({
   name,
@@ -62,6 +63,9 @@ export function IconSymbol({
   }
   if (name === 'logout') {
     return <MaterialIcons name="logout" size={size} color={color} style={style} />;
+  }
+  if (name === 'users') {
+    return <Feather name="users" size={size} color={color} style={style} />;
   }
   return <MaterialIcons color={color} size={size} name={MAPPING[name]} style={style} />;
 }

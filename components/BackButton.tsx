@@ -1,14 +1,20 @@
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import React from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 
 const BackButton = () => {
+  const router = useRouter();
+
+  const handleBackPress = () => {
+    router.back();
+  };
+
   return (
     <View style={{ marginRight: 15 }}>
-      <Link href={'/pages/profile'}>
+      <TouchableOpacity onPress={handleBackPress}>
         <IconSymbol name="arrow-back" size={24} color='#fff' />
-      </Link>
+      </TouchableOpacity>
     </View>
   );
 };

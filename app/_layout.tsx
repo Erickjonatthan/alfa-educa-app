@@ -9,7 +9,7 @@ export default function RootLayout() {
   return (
     <Stack screenOptions={ {headerShown: false, animation: 'none' }}>
       <Stack.Screen name="pages"/>
-      <Stack.Screen name="user-pages"/>
+      <Stack.Screen name="profile-pages"/>
       <Stack.Screen name="index"/>
       <Stack.Screen name="cadastro" />
     </Stack>
