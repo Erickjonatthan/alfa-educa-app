@@ -1,50 +1,22 @@
-# Welcome to your Expo app 👋
+# AlfaEduca
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Bem-vindo ao AlfaEduca, o aplicativo interativo de alfabetização! O AlfaEduca foi desenvolvido para auxiliar no processo de aprendizado de crianças e adultos na fase inicial de alfabetização, utilizando uma abordagem lúdica, prática e envolvente.
 
-## Get started
+## Sobre o AlfaEduca
 
-1. Install dependencies
+O AlfaEduca é uma ferramenta educacional projetada para ensinar as primeiras letras, palavras e noções básicas de leitura e escrita. Por meio de jogos, atividades interativas e vídeos educativos, o aplicativo visa proporcionar uma experiência de aprendizagem dinâmica e divertida.
 
-   ```bash
-   npm install
-   ```
+Objetivos do AlfaEduca:
+- Facilitar a alfabetização de forma intuitiva e atrativa.
+- Incentivar o desenvolvimento das habilidades de leitura e escrita desde os primeiros passos.
+- Oferecer uma abordagem personalizada para o aprendizado, respeitando o ritmo de cada usuário.
+- Estimular a criatividade e o prazer pelo aprendizado.
 
-2. Start the app
+## Funcionalidades
 
-   ```bash
-    npx expo start
-   ```
+Letras e Sons: Aprenda as letras do alfabeto e seus respectivos sons.
+Palavras e Imagens: Associe palavras a imagens para melhorar a memorização.
+Progressão Personalizada: O aplicativo adapta-se ao ritmo e progresso de cada usuário.
 
-In the output, you'll find options to open the app in a
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Equipe AlfaEduca.
