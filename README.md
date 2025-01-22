@@ -19,4 +19,4 @@ Palavras e Imagens: Associe palavras a imagens para melhorar a memorização.
 Progressão Personalizada: O aplicativo adapta-se ao ritmo e progresso de cada usuário.
 
 
-Equipe AlfaEduca.
+### Equipe AlfaEduca.
