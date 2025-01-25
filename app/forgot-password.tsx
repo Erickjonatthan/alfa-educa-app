@@ -15,6 +15,10 @@ export default function ForgotPasswordScreen() {
   const initialLoading = useCheckToken();
   const { email, setEmail, handleForgotPasswordPress, loading } = useForgotPasswordPress();
 
+  const handleEmailChange = (text: string) => {
+    setEmail(text.trim());
+  };
+
   if (initialLoading) {
     return (
       <ThemedView style={styles.container}>
@@ -43,7 +47,7 @@ export default function ForgotPasswordScreen() {
         placeholder="Digite seu email"
         placeholderTextColor={colorScheme === 'dark' ? '#FFFFFF89' : '#0000009C'}
         value={email}
-        onChangeText={setEmail}
+        onChangeText={handleEmailChange}
         keyboardType="email-address"
         autoCapitalize="none"
         editable={!loading}
