@@ -8,37 +8,27 @@ export function useBackRedirect() {
   const router = useRouter();
   const pathname = usePathname();
 
-
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
-        if (pathname.startsWith('/profile-pages')) {
-          router.push('/pages/profile');
-          return true;
-        } else if (pathname.startsWith('/pages') && pathname !== '/pages/home') {
-          router.push('/pages/home');
-          return true;
-        } else if (pathname === '/pages/home') {
+        if (pathname.startsWith('/profile-pages') || 
+            (pathname.startsWith('/pages') && pathname !== '/pages/home') || 
+            pathname === '/cadastro' || 
+            pathname === '/forgot-password' || 
+            (pathname.startsWith('/admin-pages') && pathname !== '/admin-pages/home')) {
+          router.back();
+        } else if (pathname === '/pages/home' || pathname.startsWith('/admin-pages/home')) {
           BackHandler.exitApp();
-          return true;
-        } else if(pathname === '/cadastro') {
-          router.push('/');
-          return true;
-        } else if (pathname === '/forgot-password') {
-          router.push('/');
-          return true;
-        }
-        else {
+        } else {
           AsyncStorage.removeItem('hasSeenGif');
           BackHandler.exitApp();
-          return true;
         }
+        return true;
       };
 
       BackHandler.addEventListener('hardwareBackPress', onBackPress);
 
-      return () =>
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
     }, [pathname, router])
   );
 }

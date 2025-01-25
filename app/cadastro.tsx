@@ -15,6 +15,7 @@ export default function RegisterScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [nome, setNome] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const colorScheme = useColorScheme();
   const { handleRegister, loading } = useRegister();
   const router = useRouter();
@@ -84,18 +85,26 @@ export default function RegisterScreen() {
           </TouchableOpacity>
         </View>
         <ThemedText type='default' style={styles.registerPrompt}>Confirmar Senha</ThemedText>
-        <TextInput
-          style={[
-            styles.input,
-            colorScheme === 'dark' ? styles.inputDark : styles.inputLight,
-          ]}
-          placeholder="Confirme sua senha"
-          placeholderTextColor={colorScheme === 'dark' ? '#FFFFFF89' : '#0000009C'}
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry={true}
-          editable={!loading}
-        />
+        <View style={[
+          styles.passwordContainer,
+          colorScheme === 'dark' ? styles.inputDark : styles.inputLight,
+        ]}>
+          <TextInput
+            style={[
+              styles.passwordInput,
+              colorScheme === 'dark' ? styles.inputDark : styles.inputLight,
+            ]}
+            placeholder="Confirme sua senha"
+            placeholderTextColor={colorScheme === 'dark' ? '#FFFFFF89' : '#0000009C'}
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry={!showConfirmPassword}
+            editable={!loading}
+          />
+          <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)} disabled={loading}>
+            <Ionicons name={showConfirmPassword ? 'eye-off' : 'eye'} size={24} color="gray" />
+          </TouchableOpacity>
+        </View>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (

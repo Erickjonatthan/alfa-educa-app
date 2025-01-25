@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Image, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
+import React from 'react';
+import { ScrollView, View, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useRouter } from 'expo-router';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import styles from '../styles/home';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useUser } from '@/context/UserContext';
 
 export default function HomeScreen() {
-  const { user, setUser } = useUser(); 
-  const [initialLoading, setInitialLoading] = useState(true);
+  const { user } = useUser(); 
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
   const router = useRouter();
@@ -19,53 +17,6 @@ export default function HomeScreen() {
   const handleStartLearning = () => {
     router.push('/admin-pages/manage-tasks');
   };
-
-  const fetchUserData = async (token: string, userId: string) => {
-    try {
-      const response = await fetch(`https://alfa-educa-server.onrender.com/cadastro/${userId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
-      } else {
-        console.log('Falha ao buscar dados do administrador:', response.status);
-      }
-    } catch (error) {
-      console.log('Erro ao buscar dados do administrador:', error);
-    } finally {
-      setInitialLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      //pega o token do AsyncStorage
-      const token = await AsyncStorage.getItem('token');
-      const userId = await AsyncStorage.getItem('userId');
-      if (token && userId) {
-        fetchUserData(token, userId);
-      } else {
-        console.log('Token ou userId é nulo');
-        setInitialLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (initialLoading) {
-    return (
-      <ThemedView style={[styles.container, styles.loadingContainer]}>
-        <ActivityIndicator size="large" color="#FFFFFF" />
-      </ThemedView>
-    );
-  }
 
   return (
     <ScrollView contentContainerStyle={[styles.container, isDarkMode ? styles.containerDark : styles.containerLight]}>
