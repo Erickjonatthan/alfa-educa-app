@@ -22,7 +22,7 @@ export default function LoginScreen() {
   const showGif = useShowGif();
 
   const handleLoginPress = () => {
-    handleLogin(email, password);
+    handleLogin(email.trim(), password.trim());
   };
 
   if (initialLoading) {
@@ -60,7 +60,7 @@ export default function LoginScreen() {
         placeholder="Digite seu email"
         placeholderTextColor={colorScheme === 'dark' ? '#FFFFFF89' : '#0000009C'}
         value={email}
-        onChangeText={setEmail}
+        onChangeText={(text) => setEmail(text.trim())}
         keyboardType="email-address"
         autoCapitalize="none"
         editable={!loading}
@@ -78,7 +78,7 @@ export default function LoginScreen() {
           placeholder="Digite sua senha"
           placeholderTextColor={colorScheme === 'dark' ? '#FFFFFF89' : '#0000009C'}
           value={password}
-          onChangeText={setPassword}
+          onChangeText={(text) => setPassword(text.trim())}
           secureTextEntry={!showPassword}
           editable={!loading}
         />
