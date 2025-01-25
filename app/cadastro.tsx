@@ -21,7 +21,13 @@ export default function RegisterScreen() {
   const router = useRouter();
 
   const handleRegisterPress = () => {
-    handleRegister(nome, email, password, confirmPassword);
+    handleRegister(nome.trim(), email.trim(), password.trim(), confirmPassword.trim());
+  };
+
+  const handleNomeChange = (text: string) => {
+    if (text.length === 0 || text[0] !== ' ') {
+      setNome(text);
+    }
   };
 
   return (
@@ -44,7 +50,7 @@ export default function RegisterScreen() {
           placeholder="Digite seu nome e sobrenome"
           placeholderTextColor={colorScheme === 'dark' ? '#FFFFFF89' : '#0000009C'}
           value={nome}
-          onChangeText={setNome}
+          onChangeText={handleNomeChange}
           keyboardType="default"
           autoCapitalize="words"
           editable={!loading}
@@ -58,7 +64,7 @@ export default function RegisterScreen() {
           placeholder="Digite o email que você mais usa"
           placeholderTextColor={colorScheme === 'dark' ? '#FFFFFF89' : '#0000009C'}
           value={email}
-          onChangeText={setEmail}
+          onChangeText={(text) => setEmail(text.trim())}
           keyboardType="email-address"
           autoCapitalize="none"
           editable={!loading}
@@ -76,7 +82,7 @@ export default function RegisterScreen() {
             placeholder="Digite sua senha"
             placeholderTextColor={colorScheme === 'dark' ? '#FFFFFF89' : '#0000009C'}
             value={password}
-            onChangeText={setPassword}
+            onChangeText={(text) => setPassword(text.trim())}
             secureTextEntry={!showPassword}
             editable={!loading}
           />
@@ -97,7 +103,7 @@ export default function RegisterScreen() {
             placeholder="Confirme sua senha"
             placeholderTextColor={colorScheme === 'dark' ? '#FFFFFF89' : '#0000009C'}
             value={confirmPassword}
-            onChangeText={setConfirmPassword}
+            onChangeText={(text) => setConfirmPassword(text.trim())}
             secureTextEntry={!showConfirmPassword}
             editable={!loading}
           />
