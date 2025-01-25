@@ -24,11 +24,20 @@ export function useRegister() {
     }
   };
 
+  const cleanInput = (input: string) => {
+    return input.trim().replace(/\s+/g, ' ');
+  };
+
   const handleRegister = async (nome: string, email: string, password: string, confirmPassword: string) => {
     if (!nome || !email || !password || !confirmPassword) {
       showAlert('Erro', 'Todos os campos são obrigatórios!');
       return;
     }
+
+    nome = cleanInput(nome);
+    email = cleanInput(email);
+    password = cleanInput(password);
+    confirmPassword = cleanInput(confirmPassword);
 
     if (!validateEmail(email)) {
       showAlert('Erro', 'Por favor, insira um email válido.');
@@ -56,7 +65,7 @@ export function useRegister() {
         body: JSON.stringify({ nome, email, senha: password }),
       });
 
-      console.log('Resposta recebida:', response);
+      
       let data;
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.indexOf('application/json') !== -1) {

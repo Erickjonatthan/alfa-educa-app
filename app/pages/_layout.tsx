@@ -30,10 +30,15 @@ function TabLayoutContent() {
           'Content-Type': 'application/json',
         },
       });
-
+  
       if (response.ok) {
         const userData = await response.json();
         setUser(userData); // Atualize o contexto com os dados do usuário
+      } else if (response.status === 403) {
+        console.log('Usuário não autorizado ou não encontrado, redirecionando para login.');
+        await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('userId');
+        router.push('/');
       } else {
         console.log('Falha ao buscar dados do usuário:', response.status);
       }
