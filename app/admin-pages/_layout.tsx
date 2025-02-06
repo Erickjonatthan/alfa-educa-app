@@ -37,9 +37,11 @@ function TabLayoutContent() {
         setUser(userData); // Atualize o contexto com os dados do usuário
       } else {
         console.log('Falha ao buscar dados do usuário:', response.status);
+        router.push("/");
       }
     } catch (error) {
       console.log('Erro ao buscar dados do usuário:', error);
+      router.push("/");
     } finally {
       setInitialLoading(false);
     }
@@ -55,6 +57,7 @@ function TabLayoutContent() {
       } else {
         console.log('Token or userId is null');
         setInitialLoading(false);
+        router.push("/");
       }
     };
 
@@ -99,7 +102,6 @@ function TabLayoutContent() {
             default: {},
           }),
         },
-        animation: "none",
       }}
     >
       <Tabs.Screen
