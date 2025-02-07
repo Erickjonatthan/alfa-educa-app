@@ -30,7 +30,7 @@ function TabLayoutContent() {
           'Content-Type': 'application/json',
         },
       });
-  
+
       if (response.ok) {
         const userData = await response.json();
         setUser(userData); // Atualize o contexto com os dados do usuário
@@ -41,9 +41,11 @@ function TabLayoutContent() {
         router.push('/');
       } else {
         console.log('Falha ao buscar dados do usuário:', response.status);
+        router.push('/');
       }
     } catch (error) {
       console.log('Erro ao buscar dados do usuário:', error);
+      router.push('/');
     } finally {
       setInitialLoading(false);
     }
@@ -59,6 +61,7 @@ function TabLayoutContent() {
       } else {
         console.log('Token or userId is null');
         setInitialLoading(false);
+        router.push('/');
       }
     };
 
@@ -106,7 +109,6 @@ function TabLayoutContent() {
             default: {},
           }),
         },
-        animation: "none",
       }}
     >
       <Tabs.Screen
