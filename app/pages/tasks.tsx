@@ -5,6 +5,7 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import React from 'react';
+import Atvs from '@/app/pages/atvs';
 
 export default function TaskScreen() {
   return (
@@ -51,6 +52,7 @@ export default function TaskScreen() {
           <ThemedText type="defaultSemiBold">app-example</ThemedText>.
         </ThemedText>
       </ThemedView>
+      <Atvs />
     </ParallaxScrollView>
   );
 }
