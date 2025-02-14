@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Alert, Platform } from 'react-native';
 import { useLogin } from './useLogin'; // Importe a função useLogin
+import User from '@/context/User';
 
 export function useRegister() {
   const [loading, setLoading] = useState(false);
@@ -28,15 +29,17 @@ export function useRegister() {
     return input.trim().replace(/\s+/g, ' ');
   };
 
-  const handleRegister = async (nome: string, email: string, password: string, confirmPassword: string) => {
-    if (!nome || !email || !password || !confirmPassword) {
+  const handleRegister = async (user: User, confirmPassword: string) => {
+    const { nome, email, senha } = user;
+
+    if (!nome || !email || !senha || !confirmPassword) {
       showAlert('Erro', 'Todos os campos são obrigatórios!');
       return;
     }
 
-    nome = cleanInput(nome);
-    email = cleanInput(email);
-    password = cleanInput(password);
+    user.nome = cleanInput(nome);
+    user.email = cleanInput(email);
+    user.senha = cleanInput(senha);
     confirmPassword = cleanInput(confirmPassword);
 
     if (!validateEmail(email)) {
@@ -44,12 +47,12 @@ export function useRegister() {
       return;
     }
 
-    if (!isPasswordStrong(password)) {
+    if (!isPasswordStrong(senha)) {
       showAlert('Erro', 'A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial.');
       return;
     }
 
-    if (password !== confirmPassword) {
+    if (senha !== confirmPassword) {
       showAlert('Erro', 'As senhas não são iguais.');
       return;
     }
@@ -62,10 +65,9 @@ export function useRegister() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ nome, email, senha: password }),
+        body: JSON.stringify(user),
       });
 
-      
       let data;
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.indexOf('application/json') !== -1) {
@@ -78,7 +80,7 @@ export function useRegister() {
 
       if (response.status === 201) {
         showAlert('Sucesso', 'Cadastro realizado com sucesso!');
-        await handleLogin(email, password); // Chame a função handleLogin após o cadastro
+        await handleLogin(email, senha); // Chame a função handleLogin após o cadastro
       } else {
         console.log('Falha no cadastro:', response.status);
         switch (response.status) {
@@ -107,3 +109,5 @@ export function useRegister() {
 
   return { handleRegister, loading };
 }
+
+export default User;
