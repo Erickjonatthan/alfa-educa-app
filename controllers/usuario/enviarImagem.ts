@@ -30,9 +30,6 @@ export const enviarImagem = async (base64Image: string | null, user: User | null
           nome: user?.nome || "", // Garantir que nome seja uma string
           email: user?.email || "", // Garantir que email seja uma string
           imgPerfil: `data:image/jpeg;base64,${base64Image}`,
-          nivel: user?.nivel || 0, // Garantir que nivel seja um número
-          isAdmin: user?.isAdmin || false, // Garantir que isAdmin seja um boolean
-          pontos: user?.pontos || 0, // Garantir que pontos seja um número
         };
         setUser(updatedUser); // Atualiza o contexto do usuário
         setImage(`data:image/jpeg;base64,${base64Image}`); // Atualiza a imagem de perfil permanentemente

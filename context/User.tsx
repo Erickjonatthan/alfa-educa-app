@@ -6,7 +6,7 @@ export interface User {
   nivel?: number;
   pontos?: number;
   isAdmin?: boolean;
-  senha: string;
+  senha?: string;
 }
 
 export default User;
