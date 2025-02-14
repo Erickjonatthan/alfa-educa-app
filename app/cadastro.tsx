@@ -6,7 +6,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { useRegister } from '@/hooks/useRegister';
+import User, { useRegister } from '@/hooks/useRegister'; // Importe a função useRegister e a interface User
 import styles from './styles/register';
 
 export default function RegisterScreen() {
@@ -21,7 +21,12 @@ export default function RegisterScreen() {
   const router = useRouter();
 
   const handleRegisterPress = () => {
-    handleRegister(nome.trim(), email.trim(), password.trim(), confirmPassword.trim());
+    const newUser: User = {
+      nome: nome.trim(),
+      email: email.trim(),
+      senha: password.trim(),
+    };
+    handleRegister(newUser, confirmPassword.trim());
   };
 
   const handleNomeChange = (text: string) => {

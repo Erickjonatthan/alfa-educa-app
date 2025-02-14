@@ -1,8 +1,12 @@
 export interface User {
-  id: string;
+  id?: string;
   nome: string;
   email: string;
-  imgPerfil: string;
+  imgPerfil?: string;
+  nivel?: number;
+  pontos?: number;
+  isAdmin?: boolean;
+  senha?: string;
 }
 
 export default User;
