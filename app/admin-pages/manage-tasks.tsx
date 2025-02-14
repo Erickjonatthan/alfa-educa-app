@@ -1,75 +1,133 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Button,
+  Alert,
+  ScrollView,
+  ActivityIndicator,
+  useColorScheme,
+  TouchableOpacity,
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import React from 'react';
+import { ThemedText } from "@/components/ThemedText";
+import { listarAtividades } from "@/controllers/atividade/listarAtividades";
+import { criarAtividade } from "@/controllers/atividade/criarAtividade";
+import { ThemedView } from "@/components/ThemedView";
+import Task from "@/context/Task";
+import { newTask } from "@/context/NewTask";
+import CreateTaskModal from "@/components/CreateTaskModal";
+import styles from "../styles/manage-tasks";
 
 export default function ManageTasksScreen() {
+  const [atividades, setAtividades] = useState<Task[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [showCreateForm, setShowCreateForm] = useState<boolean>(false);
+  const [newTask, setNewTask] = useState<Partial<newTask>>({});
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === "dark";
+
+  const fetchAtividades = async () => {
+    setIsLoading(true);
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        const data = await listarAtividades(token);
+        setAtividades(data);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar atividades:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAtividades();
+  }, []);
+
+  const handleCreateTask = async () => {
+    const token = await AsyncStorage.getItem("token");
+    if (!token) {
+      Alert.alert("Erro", "Token de autenticação não encontrado.");
+      return;
+    }
+
+    const novaAtividade: newTask = {
+      titulo: newTask.titulo || "",
+      subtitulo: newTask.subtitulo || "",
+      descricao: newTask.descricao || "",
+      nivel: newTask.nivel || 0,
+      pontos: newTask.pontos || 0,
+      respostaCorreta: newTask.respostaCorreta || "",
+    };
+
+    try {
+      const atividadeCriada = await criarAtividade(token, novaAtividade);
+      Alert.alert("Sucesso", "Atividade criada com sucesso!");
+      console.log("Atividade criada:", atividadeCriada);
+      setShowCreateForm(false);
+      setNewTask({});
+      await fetchAtividades(); // Recarrega a lista de atividades após criar
+    } catch (error) {
+      Alert.alert("Erro", "Erro ao criar atividade.");
+      console.error("Erro ao criar atividade:", error);
+    }
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View
+        style={[
+          styles.container,
+          isDarkMode ? styles.containerDark : styles.containerLight,
+        ]}
+      >
+        <ThemedView style={styles.header}>
+          <ThemedText type="title" style={styles.welcomeMessage}>
+            Atividades cadastradas no sistema
+          </ThemedText>
+          <ThemedText type="subtitle" style={styles.subtitle}>
+            Gerencie as atividades do AlfaEduca.
+          </ThemedText>
+        </ThemedView>
+        {isLoading ? (
+          <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            style={styles.loadingContainer}
+          />
+        ) : (
+          <>
+            {atividades.map((item) => (
+              <View key={item.id} style={styles.taskContainer}>
+                <View style={styles.taskInfoContainer}>
+                  <ThemedText>{item.titulo}</ThemedText>
+                  <ThemedText>{item.subtitulo}</ThemedText>
+                  <ThemedText>{item.descricao}</ThemedText>
+                  <ThemedText>Nível: {item.nivel}</ThemedText>
+                  <ThemedText>Pontos: {item.pontos}</ThemedText>
+                </View>
+              </View>
+            ))}
+            <TouchableOpacity
+              style={[styles.button]}
+              onPress={() => setShowCreateForm(true)}
+            >
+              <ThemedText style={styles.buttonText}>
+                Adicionar
+              </ThemedText>
+            </TouchableOpacity>
+            <CreateTaskModal
+              visible={showCreateForm}
+              onClose={() => setShowCreateForm(false)}
+              onCreate={handleCreateTask}
+              newTask={newTask}
+              setNewTask={setNewTask}
+            />
+          </>
+        )}
+      </View>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
