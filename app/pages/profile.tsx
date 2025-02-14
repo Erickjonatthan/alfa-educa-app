@@ -17,7 +17,7 @@ import * as ImagePicker from "expo-image-picker";
 import { useUser } from "@/context/UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import User from "@/context/User";
-import { enviarImagem } from "@/controllers/usuario/usuarioController";
+import { enviarImagem } from "@/controllers/usuario/enviarImagem";
 
 export default function ProfileScreen() {
   const { user, setUser } = useUser();
