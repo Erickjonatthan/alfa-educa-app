@@ -1,24 +1,20 @@
-import { NewTask } from "@/context/NewTask";
-import Task from "@/context/Task";
-
-export const criarAtividade = async (
+export const verificarResposta = async (
     token: string,
-    newTask: NewTask
-): Promise<Task> => {
+    respostaId: string
+): Promise<any> => {
     try {
         const response = await fetch(
-            "https://alfa-educa-server.onrender.com/atividade",
+            `https://alfa-educa-server.onrender.com/resposta/verificar/${respostaId}`,
             {
-                method: "POST",
+                method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(newTask),
             }
         );
         if (!response.ok) {
-            let errorMessage = "Erro ao criar atividade";
+            let errorMessage = "Erro ao verificar resposta";
             if (response.status === 401) {
                 errorMessage = "Não autorizado. Verifique suas credenciais.";
             } else if (response.status === 500) {
@@ -26,10 +22,10 @@ export const criarAtividade = async (
             }
             throw new Error(errorMessage);
         }
-        const atividadeCriada: Task = await response.json();
-        return atividadeCriada;
+        const respostaCriada = await response.json();
+        return respostaCriada.isFinalizada;
     } catch (error) {
-        console.error("Erro ao criar atividade:", error);
+        console.error("Erro ao verificar resposta:", error);
         throw error;
     }
 };

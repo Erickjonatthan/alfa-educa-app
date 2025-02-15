@@ -15,15 +15,16 @@ import { listarAtividades } from "@/controllers/atividade/listarAtividades";
 import { criarAtividade } from "@/controllers/atividade/criarAtividade";
 import { ThemedView } from "@/components/ThemedView";
 import Task from "@/context/Task";
-import { newTask } from "@/context/NewTask";
+import { NewTask } from "@/context/NewTask";
 import CreateTaskModal from "@/components/CreateTaskModal";
 import styles from "../styles/manage-tasks";
+import { useFocusEffect } from "expo-router";
 
 export default function ManageTasksScreen() {
   const [atividades, setAtividades] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [showCreateForm, setShowCreateForm] = useState<boolean>(false);
-  const [newTask, setNewTask] = useState<Partial<newTask>>({});
+  const [newTask, setNewTask] = useState<Partial<NewTask>>({});
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
 
@@ -42,9 +43,11 @@ export default function ManageTasksScreen() {
     }
   };
 
-  useEffect(() => {
-    fetchAtividades();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchAtividades();
+    }, [])
+  );
 
   const handleCreateTask = async () => {
     const token = await AsyncStorage.getItem("token");
@@ -53,7 +56,7 @@ export default function ManageTasksScreen() {
       return;
     }
 
-    const novaAtividade: newTask = {
+    const novaAtividade: NewTask = {
       titulo: newTask.titulo || "",
       subtitulo: newTask.subtitulo || "",
       descricao: newTask.descricao || "",

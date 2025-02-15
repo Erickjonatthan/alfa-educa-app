@@ -21,6 +21,7 @@ import { editarConta } from "@/controllers/usuario/editarConta";
 import styles from "../styles/users";
 import { ThemedView } from "@/components/ThemedView";
 import { mudarRole } from "@/controllers/usuario/mudarRole";
+import { useFocusEffect } from "expo-router";
 
 export default function UsersScreen() {
   const [usuarios, setUsuarios] = useState<User[]>([]);
@@ -57,10 +58,12 @@ export default function UsersScreen() {
     }
   };
 
-  useEffect(() => {
-    fetchUsuarios();
-    fetchCurrentUserId();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchUsuarios();
+      fetchCurrentUserId();
+    }, [])
+  );
 
   const handleDeleteUser = async (userId: string) => {
     Alert.alert(
