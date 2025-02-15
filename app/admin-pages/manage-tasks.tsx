@@ -15,7 +15,7 @@ import { listarAtividades } from "@/controllers/atividade/listarAtividades";
 import { criarAtividade } from "@/controllers/atividade/criarAtividade";
 import { ThemedView } from "@/components/ThemedView";
 import Task from "@/context/Task";
-import { NewTask } from "@/context/newTask";
+import { NewTask } from "@/context/NewTask";
 import CreateTaskModal from "@/components/CreateTaskModal";
 import styles from "../styles/manage-tasks";
 import { useFocusEffect } from "expo-router";

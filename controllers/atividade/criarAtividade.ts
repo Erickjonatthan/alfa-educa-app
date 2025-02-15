@@ -1,4 +1,4 @@
-import { NewTask } from "@/context/newTask";
+import { NewTask } from "@/context/NewTask";
 import Task from "@/context/Task";
 
 export const criarAtividade = async (

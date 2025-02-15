@@ -10,7 +10,7 @@ import {
   Text,
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
-import { NewTask } from "@/context/newTask";
+import { NewTask } from "@/context/NewTask";
 import styles from "@/app/styles/manage-tasks";
 
 interface CreateTaskModalProps {
