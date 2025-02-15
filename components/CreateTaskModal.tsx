@@ -10,15 +10,15 @@ import {
   Text,
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
-import { newTask } from "@/context/NewTask";
+import { NewTask } from "@/context/newTask";
 import styles from "@/app/styles/manage-tasks";
 
 interface CreateTaskModalProps {
   visible: boolean;
   onClose: () => void;
   onCreate: () => Promise<void>;
-  newTask: Partial<newTask>;
-  setNewTask: React.Dispatch<React.SetStateAction<Partial<newTask>>>;
+  newTask: Partial<NewTask>;
+  setNewTask: React.Dispatch<React.SetStateAction<Partial<NewTask>>>;
 }
 
 const CreateTaskModal: React.FC<CreateTaskModalProps> = ({

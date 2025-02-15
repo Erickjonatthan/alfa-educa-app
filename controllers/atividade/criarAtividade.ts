@@ -1,9 +1,9 @@
+import { NewTask } from "@/context/newTask";
 import Task from "@/context/Task";
-import { newTask } from "@/context/NewTask";
 
 export const criarAtividade = async (
     token: string,
-    newTask: newTask
+    newTask: NewTask
 ): Promise<Task> => {
     try {
         const response = await fetch(
