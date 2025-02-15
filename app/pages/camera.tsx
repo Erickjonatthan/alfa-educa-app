@@ -20,6 +20,8 @@ import styles from "../styles/camera";
 import { extractText } from "@/controllers/camera/cameraController";
 import * as Speech from "expo-speech";
 import * as ImageManipulator from "expo-image-manipulator";
+import { useFocusEffect } from "@react-navigation/native";
+
 
 export default function CameraScreen() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -29,13 +31,14 @@ export default function CameraScreen() {
   const [showCameraWithText, setShowCameraWithText] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const cameraRef = useRef<CameraView>(null);
-  const [showResetButton, setShowResetButton] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (!permission) {
-      requestPermission();
-    }
-  }, [permission]);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!permission) {
+        requestPermission();
+      }
+    }, [permission])
+  );
 
   if (!permission) {
     return <View />;
@@ -100,7 +103,6 @@ export default function CameraScreen() {
     setExtractedText(null);
     setSyllabifiedText(null);
     setShowCameraWithText(false);
-    setShowResetButton(false);
   };
 
   const goBack = () => {

@@ -4,7 +4,7 @@ export const criarResposta = async (
     token: string,
     resposta: string,
     atividadeId: string,
-    usuarioID: string
+    usuarioId: string
 ): Promise<Answer> => {
     try {
         const response = await fetch(
@@ -15,7 +15,7 @@ export const criarResposta = async (
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({ resposta, atividadeId, usuarioID }),
+                body: JSON.stringify({ resposta, atividadeId, usuarioId }),
             }
         );
         if (!response.ok) {

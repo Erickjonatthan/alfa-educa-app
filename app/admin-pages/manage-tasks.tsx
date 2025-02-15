@@ -18,6 +18,7 @@ import Task from "@/context/Task";
 import { NewTask } from "@/context/newTask";
 import CreateTaskModal from "@/components/CreateTaskModal";
 import styles from "../styles/manage-tasks";
+import { useFocusEffect } from "expo-router";
 
 export default function ManageTasksScreen() {
   const [atividades, setAtividades] = useState<Task[]>([]);
@@ -42,9 +43,11 @@ export default function ManageTasksScreen() {
     }
   };
 
-  useEffect(() => {
-    fetchAtividades();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchAtividades();
+    }, [])
+  );
 
   const handleCreateTask = async () => {
     const token = await AsyncStorage.getItem("token");

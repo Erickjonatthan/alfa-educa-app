@@ -59,7 +59,7 @@ function TabLayoutContent() {
       if (token && userId) {
         fetchUserData(token, userId);
       } else {
-        console.log('Token or userId is null');
+        await AsyncStorage.clear();
         setInitialLoading(false);
         router.push('/');
       }
