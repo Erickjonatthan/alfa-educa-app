@@ -12,6 +12,7 @@ import { useAuth } from "@/hooks/useAuth";
 import UserProvider, { useUser } from "@/context/UserContext";
 import { useBackRedirect } from "@/hooks/useBackRedirect";
 import { ThemedView } from "@/components/ThemedView";
+import useLogout from "@/hooks/useLogout"; // Importa o hook de logout
 
 function TabLayoutContent() {
   const colorScheme = useColorScheme();
@@ -19,6 +20,7 @@ function TabLayoutContent() {
   const pathname = usePathname();
   const { setUser } = useUser();
   const [initialLoading, setInitialLoading] = useState(true);
+  const { handleLogout } = useLogout(); // Usa o hook de logout
 
   useBackRedirect();
 
@@ -37,11 +39,11 @@ function TabLayoutContent() {
         setUser(userData); // Atualize o contexto com os dados do usuário
       } else {
         console.log('Falha ao buscar dados do usuário:', response.status);
-        router.push("/");
+        handleLogout(); // Chama a função de logout em caso de falha
       }
     } catch (error) {
       console.log('Erro ao buscar dados do usuário:', error);
-      router.push("/");
+      handleLogout(); // Chama a função de logout em caso de erro
     } finally {
       setInitialLoading(false);
     }
@@ -71,7 +73,7 @@ function TabLayoutContent() {
         pathname.startsWith("/admin-pages") ||
         pathname.startsWith("/profile-pages"))
     ) {
-      router.push("/");
+      handleLogout(); // Chama a função de logout se não estiver autenticado
     }
   }, [isAuthenticated, pathname]);
 

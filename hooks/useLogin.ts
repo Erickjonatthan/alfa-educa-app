@@ -57,7 +57,7 @@ export function useLogin() {
         await AsyncStorage.setItem('userId', dadosToken.contaId);
         console.log('isAdmin:', isAdmin);
         if(isAdmin) {
-          router.push('/admin-pages/home');
+          router.navigate('/admin-pages/home');
         } else {
           router.push('/pages/home');
         }
