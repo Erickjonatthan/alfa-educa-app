@@ -3,7 +3,6 @@ import { View, TextInput, TouchableOpacity, Text, ActivityIndicator } from "reac
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Task from "@/context/Task";
 import { criarResposta } from "@/controllers/resposta/criarResposta";
-import { verificarResposta } from "@/controllers/resposta/verificarResposta";
 import styles from "../styles/tasks";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -24,8 +23,7 @@ export default function ActivityScreen() {
       const usuarioID = await AsyncStorage.getItem("userId");
       if (token && usuarioID) {
         const respostaCriada = await criarResposta(token, resposta, parsedTask.id, usuarioID);
-        const isFinalizada = await verificarResposta(token, respostaCriada.id);
-        if (isFinalizada) {
+        if (respostaCriada.finalizada) {
           console.log("Tarefa finalizada!");
           router.back();
         } else {
