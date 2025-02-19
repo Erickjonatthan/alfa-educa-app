@@ -1,9 +1,8 @@
-import { NewTask } from "@/context/NewTask";
 import Task from "@/context/Task";
 
 export const criarAtividade = async (
     token: string,
-    newTask: NewTask
+    task: Task
 ): Promise<Task> => {
     try {
         const response = await fetch(
@@ -14,7 +13,7 @@ export const criarAtividade = async (
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(newTask),
+                body: JSON.stringify(task),
             }
         );
         if (!response.ok) {

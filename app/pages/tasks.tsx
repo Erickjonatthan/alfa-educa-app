@@ -63,7 +63,7 @@ export default function TasksScreen() {
   };
 
   const handlePlay = () => {
-    if (selectedTask) {
+    if (selectedTask && selectedTask.id && !isTaskFinalizada(selectedTask.id)) {
       closeModal();
       router.push({
         pathname: "/task-page/task",
@@ -103,7 +103,7 @@ export default function TasksScreen() {
         ) : (
           <>
             {atividades.map((item) => {
-              const finalizada = isTaskFinalizada(item.id);
+              const finalizada = item.id ? isTaskFinalizada(item.id) : false;
               return (
                 <TouchableOpacity
                   key={item.id}
@@ -111,11 +111,15 @@ export default function TasksScreen() {
                     styles.taskContainer,
                     finalizada && styles.taskContainerFinalizada,
                   ]}
-                  onPress={() => !finalizada && openModal(item)}
-                  disabled={finalizada}
+                  onPress={() => openModal(item)}
                 >
                   <View style={styles.taskInfoContainer}>
                     <ThemedText>{item.titulo}</ThemedText>
+                    {item.respostaCorreta && (
+                      <ThemedText>
+                        Resposta correta: {item.respostaCorreta}
+                      </ThemedText>
+                    )}
                   </View>
                 </TouchableOpacity>
               );
@@ -128,6 +132,7 @@ export default function TasksScreen() {
         task={selectedTask}
         onClose={closeModal}
         onPlay={handlePlay}
+        isFinalizada={selectedTask && selectedTask.id ? isTaskFinalizada(selectedTask.id) : false}
       />
     </ScrollView>
   );

@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     padding: 16,
     flexGrow: 1,
     alignItems: 'center',
+    backgroundColor: '#FBDBFFFF',
   },
   containerDark: {
     backgroundColor: '#280F2BFF',
@@ -29,7 +30,15 @@ const styles = StyleSheet.create({
   welcomeMessage: {
     marginBottom: 8,
   },
+  title:{
+    fontSize: 35,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    marginTop:36,
+    color: '#000',
+  },
   subtitle: {
+    fontSize: 25,
     marginBottom: 16,
   },
   progressSection: {
@@ -120,6 +129,10 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#FFFFFF",
   },
+  buttonTextDisabled: {
+    color: "#000",
+  },
+
   scrollContainer: {
     flexGrow: 1,
   },
@@ -132,6 +145,7 @@ const styles = StyleSheet.create({
   },
   adminText: {
     color: "black",
+    marginBottom: 16,
   },
   userInfoContainer: {
     flex: 1, // Adiciona esta linha
@@ -146,15 +160,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000FF',
   },
   taskInfoContainer: {
-    marginBottom: 8,
-  },
+    borderRadius: 8,
+    padding: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+   },
   createTaskContainer: {
     marginTop: 32,
   },
   createTaskTitle: {
-    fontSize: 22,
+    fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 16,
+    marginTop:36,
     color: '#000',
   },
   createTaskSubtitle: {
@@ -197,6 +215,12 @@ const styles = StyleSheet.create({
   taskContainerFinalizada: {
     borderColor: "green",
     borderWidth: 2,
+  },
+  description:{
+    fontSize: 30,
+  },
+  buttonDisabled: {
+    backgroundColor: '#B0FF39DA',
   },
 });
 

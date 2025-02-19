@@ -2,6 +2,7 @@ import { router, Tabs, usePathname } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Platform, ActivityIndicator, Text } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from "@react-navigation/native";
 
 import { HapticTab } from "@/components/HapticTab";
 import { IconSymbol } from "@/components/ui/IconSymbol";
@@ -12,6 +13,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAdmin } from "@/hooks/useAdmin";
 import UserProvider, { useUser } from "@/context/UserContext";
 import { ThemedView } from "@/components/ThemedView";
+import { adicionarConquistaUsuario } from '@/controllers/conquista/adicionarConquistaUsuario';
+
+const CONQUISTA_ID = 'c5c9f616-d109-4a8b-adeb-cb7db7deaacb';
 
 function TabLayoutContent() {
   const colorScheme = useColorScheme();
@@ -30,14 +34,25 @@ function TabLayoutContent() {
           'Content-Type': 'application/json',
         },
       });
-
+  
       if (response.ok) {
         const userData = await response.json();
         setUser(userData); // Atualize o contexto com os dados do usuário
+        // Verificar se o usuário já possui a conquista
+        const hasConquista = userData.conquistas?.some((conquista: { id: string; }) => conquista.id === CONQUISTA_ID);
+  
+        // Adicionar conquista ao usuário se ele estiver no nível 1 e não possuir a conquista
+        if (userData.nivel >= 1 && !hasConquista) {
+          try {
+            await adicionarConquistaUsuario(token, userId, CONQUISTA_ID);
+            console.log('Conquista adicionada com sucesso');
+          } catch (error) {
+            console.error('Erro ao adicionar conquista:', error);
+          }
+        }
       } else if (response.status === 403) {
         console.log('Usuário não autorizado ou não encontrado, redirecionando para login.');
-        await AsyncStorage.removeItem('token');
-        await AsyncStorage.removeItem('userId');
+        await AsyncStorage.clear();
         router.push('/');
       } else {
         console.log('Falha ao buscar dados do usuário:', response.status);
@@ -67,6 +82,20 @@ function TabLayoutContent() {
 
     fetchData();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchDataOnProfile = async () => {
+        const token = await AsyncStorage.getItem('token');
+        const userId = await AsyncStorage.getItem('userId');
+        if (token && userId && pathname === "/pages/profile") {
+          fetchUserData(token, userId);
+        }
+      };
+
+      fetchDataOnProfile();
+    }, [pathname])
+  );
 
   useEffect(() => {
     if (

@@ -56,6 +56,23 @@ const styles = StyleSheet.create({
     optionIcon: {
       marginRight: 8, // Adicione esta linha para adicionar espaço entre o ícone e o texto
     },
+    userLevel: {
+      fontSize: 18,
+      fontWeight: "bold",
+      textAlign: "center",
+    },
+    progressBar: {
+      height: 10,
+      width: 200,
+      borderRadius: 10,
+      margin: 10,
+
+    },
+    xpText: {
+      fontSize: 16,
+      textAlign: "center",
+      marginBottom: 20,
+    },
   });
 
 export default styles;

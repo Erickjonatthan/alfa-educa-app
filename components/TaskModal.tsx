@@ -9,9 +9,10 @@ interface TaskModalProps {
   task: Task | null;
   onClose: () => void;
   onPlay: () => void;
+  isFinalizada: boolean;
 }
 
-const TaskModal: React.FC<TaskModalProps> = ({ visible, task, onClose, onPlay }) => {
+const TaskModal: React.FC<TaskModalProps> = ({ visible, task, onClose, onPlay, isFinalizada }) => {
   if (!task) return null;
 
   return (
@@ -23,16 +24,22 @@ const TaskModal: React.FC<TaskModalProps> = ({ visible, task, onClose, onPlay })
     >
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <ThemedText type="title" style={styles.createTaskTitle} >{task.titulo}</ThemedText>
-          <ThemedText type="subtitle" style={styles.createTaskSubtitle}>{task.subtitulo}</ThemedText>
+          <ThemedText type="title" style={styles.createTaskTitle}> {task.titulo} </ThemedText>
+          <ThemedText type="subtitle" style={styles.createTaskSubtitle}> {task.subtitulo} </ThemedText>
           <ThemedText style={styles.adminText}>Nível: {task.nivel}</ThemedText>
           <ThemedText style={styles.adminText}>Pontos: {task.pontos}</ThemedText>
-          <TouchableOpacity style={styles.button} onPress={onPlay}>
-                <Text style={styles.buttonText}>Iniciar</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button} onPress={onClose}>
-                <Text style={styles.buttonText} >Fechar</Text>
-              </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, isFinalizada && styles.buttonDisabled]}
+            onPress={onPlay}
+            disabled={isFinalizada}
+          >
+            <Text style={isFinalizada ? styles.buttonTextDisabled : styles.buttonText}>
+              {isFinalizada ? "Finalizada" : "Iniciar"}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={onClose}>
+            <Text style={styles.buttonText}>Fechar</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>

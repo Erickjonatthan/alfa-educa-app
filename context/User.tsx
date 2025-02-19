@@ -7,6 +7,7 @@ export interface User {
   pontos?: number;
   isAdmin?: boolean;
   senha?: string;
+  conquistas?: string[]; // Adiciona a lista de conquistas
 }
 
 export default User;

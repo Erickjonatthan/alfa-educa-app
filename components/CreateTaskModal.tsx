@@ -10,15 +10,15 @@ import {
   Text,
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
-import { NewTask } from "@/context/NewTask";
 import styles from "@/app/styles/manage-tasks";
+import Task from "@/context/Task";
 
 interface CreateTaskModalProps {
   visible: boolean;
   onClose: () => void;
   onCreate: () => Promise<void>;
-  newTask: Partial<NewTask>;
-  setNewTask: React.Dispatch<React.SetStateAction<Partial<NewTask>>>;
+  newTask: Partial<Task>;
+  setNewTask: React.Dispatch<React.SetStateAction<Partial<Task>>>;
 }
 
 const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
@@ -37,7 +37,8 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
       !newTask.descricao ||
       newTask.nivel === undefined ||
       newTask.pontos === undefined ||
-      !newTask.respostaCorreta
+      !newTask.respostaCorreta ||
+      !newTask.tipo
     ) {
       Alert.alert("Erro", "Todos os campos são obrigatórios.");
       return;
@@ -110,6 +111,14 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
               setNewTask((prev) => ({ ...prev, respostaCorreta: text }))
             }
           />
+          <TextInput
+            style={styles.input}
+            placeholder="Tipo"
+            value={newTask.tipo}
+            onChangeText={(text) =>
+              setNewTask((prev) => ({ ...prev, tipo: text }))
+            }
+          />
           {isCreating ? (
             <ActivityIndicator size="large" color="#5D0052FF" />
           ) : (
@@ -118,7 +127,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                 <Text style={styles.buttonText}>Criar Atividade</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button} onPress={onClose}>
-                <Text style={styles.buttonText} >Cancelar</Text>
+                <Text style={styles.buttonText}>Cancelar</Text>
               </TouchableOpacity>
             </>
           )}

@@ -170,6 +170,24 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
   },
+  imagePreview: {
+    width: 100,
+    height: 100,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  deleteButton: {
+    backgroundColor: 'red',
+    padding: 5,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 10,
+  },
+  deleteButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;

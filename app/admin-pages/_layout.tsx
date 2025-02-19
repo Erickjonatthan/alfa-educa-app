@@ -13,6 +13,10 @@ import UserProvider, { useUser } from "@/context/UserContext";
 import { useBackRedirect } from "@/hooks/useBackRedirect";
 import { ThemedView } from "@/components/ThemedView";
 import useLogout from "@/hooks/useLogout"; // Importa o hook de logout
+import { adicionarConquistaUsuario } from "@/controllers/conquista/adicionarConquistaUsuario";
+
+const CONQUISTA_ID = 'c5c9f616-d109-4a8b-adeb-cb7db7deaacb';
+
 
 function TabLayoutContent() {
   const colorScheme = useColorScheme();
@@ -33,17 +37,33 @@ function TabLayoutContent() {
           'Content-Type': 'application/json',
         },
       });
-
+  
       if (response.ok) {
         const userData = await response.json();
         setUser(userData); // Atualize o contexto com os dados do usuário
+        // Verificar se o usuário já possui a conquista
+        const hasConquista = userData.conquistas?.some((conquista: { id: string; }) => conquista.id === CONQUISTA_ID);
+  
+        // Adicionar conquista ao usuário se ele estiver no nível 1 e não possuir a conquista
+        if (userData.nivel >= 1 && !hasConquista) {
+          try {
+            await adicionarConquistaUsuario(token, userId, CONQUISTA_ID);
+            console.log('Conquista adicionada com sucesso');
+          } catch (error) {
+            console.error('Erro ao adicionar conquista:', error);
+          }
+        }
+      } else if (response.status === 403) {
+        console.log('Usuário não autorizado ou não encontrado, redirecionando para login.');
+        await AsyncStorage.clear();
+        router.push('/');
       } else {
         console.log('Falha ao buscar dados do usuário:', response.status);
-        handleLogout(); // Chama a função de logout em caso de falha
+        router.push('/');
       }
     } catch (error) {
       console.log('Erro ao buscar dados do usuário:', error);
-      handleLogout(); // Chama a função de logout em caso de erro
+      router.push('/');
     } finally {
       setInitialLoading(false);
     }

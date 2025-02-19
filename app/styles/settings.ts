@@ -51,6 +51,55 @@ const styles = StyleSheet.create({
     optionIcon: {
       marginRight: 8, // Adicione esta linha para adicionar espaço entre o ícone e o texto
     },
+    taskContainer: {
+      marginBottom: 16,
+      padding: 16,
+      borderWidth: 1,
+      borderColor: '#FDD992FF',
+      borderRadius: 8,
+      width: '80%',
+      backgroundColor: '#000000FF',
+    },
+    taskInfoContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    achievementImage: {
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      marginRight: 10,
+    },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginVertical: 10,
+    },
+    sectionTitleDark: {
+      color: '#fff',
+    },
+    sectionTitleLight: {
+      color: '#000',
+    },
+    loadingContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    button: {
+      backgroundColor: '#007bff',
+      padding: 10,
+      borderRadius: 5,
+      alignItems: 'center',
+      marginVertical: 10,
+    },
+    buttonText: {
+      color: '#fff',
+      fontWeight: 'bold',
+    },
+    scrollContainer: {
+      flexGrow: 1,
+    },
   });
 
   export default styles;

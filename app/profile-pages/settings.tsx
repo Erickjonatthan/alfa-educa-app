@@ -4,7 +4,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import styles from './styles/settings';
+import styles from '../styles/settings';
 import useLogout from '@/hooks/useLogout';
 
 export default function ProfileSettingsScreen() {
