@@ -36,19 +36,28 @@ export default function ActivityScreen() {
   }, [parsedTask.id]);
 
   useEffect(() => {
-    if (attemptCount >= 3) {
-      Alert.alert(
-        "Dificuldades?",
-        "Você está com dificuldades? Volte para a tela inicial e veja a resposta correta.",
-        [
-          {
-            text: "OK",
-            onPress: () => router.push('/pages/tasks'),
-          },
-        ]
-      );
-    }
-  }, [attemptCount]);
+    const showAlertIfNeeded = async () => {
+      const alertShown = await AsyncStorage.getItem(`alertShown_${parsedTask.id}`);
+      if (attemptCount >= 3 && !alertShown) {
+        Alert.alert(
+          "Dificuldades?",
+          "Você está com dificuldades? Volte para a tela inicial e veja a resposta correta.",
+          [
+            {
+              text: "OK",
+              onPress: () => {
+                AsyncStorage.setItem(`alertShown_${parsedTask.id}`, "true");
+                router.push('/pages/tasks');
+              },
+            },
+          ]
+        );
+      }
+    };
+
+    showAlertIfNeeded();
+  }, [attemptCount, parsedTask.id, router]);
+
 
   const handleSendResponse = async () => {
     if (resposta.trim() === "") {
@@ -91,7 +100,7 @@ export default function ActivityScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.containertask}>
       <View style={styles.contentContainer}>
         <Text style={styles.title}>{parsedTask.titulo}</Text>
         <Text style={styles.subtitle}>{parsedTask.subtitulo}</Text>

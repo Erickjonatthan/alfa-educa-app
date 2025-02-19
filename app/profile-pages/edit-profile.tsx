@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TextInput,
@@ -33,6 +33,24 @@ export default function EditProfileScreen() {
   const [isEditingEmail, setIsEditingEmail] = useState<boolean>(false);
   const [isEditingSenha, setIsEditingSenha] = useState<boolean>(false);
   const [isEditingImage, setIsEditingImage] = useState<boolean>(false);
+  const [hasChanges, setHasChanges] = useState<boolean>(false);
+
+  useEffect(() => {
+    const originalNome = user?.nome.trim() ?? "";
+    const originalEmail = user?.email.trim() ?? "";
+    const originalImage = user?.imgPerfil ?? null;
+
+    if (
+      nome.trim() !== originalNome ||
+      email.trim() !== originalEmail ||
+      senha.trim() !== "" ||
+      tempImage !== originalImage
+    ) {
+      setHasChanges(true);
+    } else {
+      setHasChanges(false);
+    }
+  }, [nome, email, senha, tempImage, user]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -215,7 +233,7 @@ export default function EditProfileScreen() {
       </View>
       {isEditingSenha && (
         <View style={styles.fieldContainer}>
-          <Text style={styles.label}>Confirme a Senha:</Text>
+          <Text style={styles.label}>Confirme a Senha: </Text>
           <TextInput
             style={styles.input}
             value={confirmarSenha}
@@ -244,7 +262,7 @@ export default function EditProfileScreen() {
       <TouchableOpacity
         style={styles.button}
         onPress={handleSaveChanges}
-        disabled={isLoading}
+        disabled={isLoading || !hasChanges}
       >
         {isLoading ? (
           <ActivityIndicator size="small" color="#FFFFFF" />

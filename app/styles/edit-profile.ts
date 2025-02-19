@@ -66,9 +66,6 @@ export default StyleSheet.create({
     deleteButton: {
         backgroundColor: "red",
         marginTop: 20,
-        position: "absolute",
-        bottom: 0,
         alignItems: "center",
-        justifyContent: "center",
     },
 });

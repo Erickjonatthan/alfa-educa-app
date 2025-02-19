@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   useColorScheme,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -121,6 +122,12 @@ export default function ManageTasksScreen() {
           isDarkMode ? styles.containerDark : styles.containerLight,
         ]}
       >
+        <View style={styles.imageContainer}>
+          <Image
+            source={require("@/assets/images/alfaeduca-lateral.png")}
+            style={styles.logoImage}
+          />
+        </View>
         <ThemedView style={styles.header}>
           <ThemedText type="title" style={styles.welcomeMessage}>
             Atividades cadastradas no sistema

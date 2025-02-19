@@ -113,7 +113,7 @@ export default function CameraScreenFiltered({ route, onCapture }: CameraScreenF
             <Text
               key={index}
               style={
-                filterWord.length > 10
+                filterWord.length > 5
                   ? styles.smallLetter
                   : styles.letter
               }

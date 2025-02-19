@@ -99,11 +99,13 @@ const styles = StyleSheet.create({
     fontSize: 100,
     color: 'black',
     opacity: 0.5, // Letras semi-transparentes
+    marginHorizontal: 5, // Aumenta o espaçamento entre cada letra
   },
   smallLetter: {
-    fontSize: 50,
+    fontSize: 80,
     color: 'black',
     opacity: 0.5, // Letras semi-transparentes
+    marginHorizontal: 5, // Aumenta o espaçamento entre cada letra
   },
   loadingText: {
     color: '#FFF',

@@ -5,6 +5,11 @@ const styles = StyleSheet.create({
     padding: 16,
     flexGrow: 1,
     alignItems: 'center',
+  },
+  containertask: {
+    padding: 16,
+    flexGrow: 1,
+    alignItems: 'center',
     backgroundColor: '#FBDBFFFF',
   },
   containerDark: {

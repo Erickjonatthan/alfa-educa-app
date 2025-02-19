@@ -198,7 +198,7 @@ export default function CameraScreen() {
                     <Text
                       key={index}
                       style={
-                        extractedText.length > 10
+                        extractedText.length > 5
                           ? styles.smallLetter
                           : styles.letter
                       }
@@ -277,7 +277,7 @@ export default function CameraScreen() {
             )}
           </>
         )}
-        {loading && photo && (extractedText || syllabifiedText) && (
+        {!loading && photo && (extractedText || syllabifiedText) && (
           <TouchableOpacity style={styles.button} onPress={resetCamera}>
             <Text style={styles.text}>Tentar Novamente</Text>
           </TouchableOpacity>

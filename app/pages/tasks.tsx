@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   useColorScheme,
   TouchableOpacity,
+  Image
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
@@ -85,7 +86,13 @@ export default function TasksScreen() {
           styles.container,
           isDarkMode ? styles.containerDark : styles.containerLight,
         ]}
-      >
+      >      
+      <View style={styles.imageContainer}>
+      <Image
+        source={require("@/assets/images/alfaeduca-lateral.png")}
+        style={styles.logoImage}
+      />
+    </View>
         <ThemedView style={styles.header}>
           <ThemedText type="title" style={styles.welcomeMessage}>
             Atividades
