@@ -25,6 +25,7 @@ export default function EditProfileScreen() {
   const [nome, setNome] = useState<string>(user?.nome.trim() ?? "");
   const [email, setEmail] = useState<string>(user?.email.trim() ?? "");
   const [senha, setSenha] = useState<string>("");
+  const [confirmarSenha, setConfirmarSenha] = useState<string>("");
   const [tempImage, setTempImage] = useState<string | null>(user?.imgPerfil ?? null);
   const [base64Image, setBase64Image] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -39,7 +40,7 @@ export default function EditProfileScreen() {
       allowsEditing: true,
       aspect: [3, 4],
       quality: 1,
-      base64: true, // Ativa o Base64 para facilitar o envio
+      base64: true,
     });
 
     if (!result.canceled && result.assets && result.assets.length > 0) {
@@ -66,8 +67,13 @@ export default function EditProfileScreen() {
     const trimmedNome = nome.trim();
     const trimmedEmail = email.trim();
     const trimmedSenha = senha.trim();
+    const trimmedConfirmarSenha = confirmarSenha.trim();
 
-    // Valida o email
+    if (trimmedSenha !== trimmedConfirmarSenha) {
+      Alert.alert("Erro", "As senhas não coincidem.");
+      return;
+    }
+
     if (!validateEmail(trimmedEmail)) {
       Alert.alert("Erro", "Email inválido.");
       return;
@@ -207,6 +213,17 @@ export default function EditProfileScreen() {
           </Text>
         </TouchableOpacity>
       </View>
+      {isEditingSenha && (
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}>Confirme a Senha:</Text>
+          <TextInput
+            style={styles.input}
+            value={confirmarSenha}
+            onChangeText={setConfirmarSenha}
+            secureTextEntry
+          />
+        </View>
+      )}
       <View style={styles.fieldContainer}>
         <Text style={styles.label}>Imagem:</Text>
         {isEditingImage ? (
