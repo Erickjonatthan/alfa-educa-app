@@ -15,7 +15,7 @@ import { ThemedView } from "@/components/ThemedView";
 import useLogout from "@/hooks/useLogout"; // Importa o hook de logout
 import { adicionarConquistaUsuario } from "@/controllers/conquista/adicionarConquistaUsuario";
 
-const CONQUISTA_ID = 'c5c9f616-d109-4a8b-adeb-cb7db7deaacb';
+const CONQUISTA_ID = '5799edc8-0b5e-465e-b2e0-176e47e31ea2';
 
 
 function TabLayoutContent() {

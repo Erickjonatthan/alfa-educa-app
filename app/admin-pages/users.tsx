@@ -374,19 +374,6 @@ export default function UsersScreen() {
                 </View>
               </View>
             ))}
-            {usuarios.length > 0 && (
-              <View style={styles.resetButtonContainer}>
-                <TouchableOpacity
-                  onPress={fetchUsuarios}
-                  style={[
-                    styles.button,
-                    { width: "50%", height: 45, justifyContent: "center" },
-                  ]}
-                >
-                  <Text style={styles.buttonText}>Recarregar</Text>
-                </TouchableOpacity>
-              </View>
-            )}
           </>
         )}
       </View>

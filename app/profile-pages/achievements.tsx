@@ -127,7 +127,7 @@ export default function ProfileAchievementsScreen() {
               </>
             )}
 
-            {isAdmin && allAchievements.length > 0 && (
+            {isAdmin && allAchievements.length >= 0 && (
               <>
                 <ThemedText
                   style={[
