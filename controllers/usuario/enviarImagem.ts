@@ -9,7 +9,7 @@ export const enviarImagem = async (base64Image: string | null, user: User | null
       const userId = user?.id;
 
       const response = await fetch(
-        `https://alfa-educa-server.onrender.com/cadastro`,
+        `http://69.62.97.224:8081/cadastro`,
         {
           method: "PUT",
           headers: {

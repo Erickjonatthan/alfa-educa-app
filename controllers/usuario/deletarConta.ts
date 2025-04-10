@@ -1,7 +1,7 @@
 export const deletarConta = async (id: string, token: string) => {
   try {
     const response = await fetch(
-      `https://alfa-educa-server.onrender.com/cadastro/${id}`,
+      `http://69.62.97.224:8081/cadastro/${id}`,
       {
         method: "DELETE",
         headers: {

@@ -1,7 +1,7 @@
 export const pegarInfoUsuario = async (token: string, userId: string) => {
     try {
         const response = await fetch(
-            `https://alfa-educa-server.onrender.com/cadastro/${userId}`,
+            `http://69.62.97.224:8081/cadastro/${userId}`,
             {
                 method: 'GET',
                 headers: {

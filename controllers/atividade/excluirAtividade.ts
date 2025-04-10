@@ -1,7 +1,7 @@
 export const deletarAtividade = async (id: string, token: string) => {
     try {
       const response = await fetch(
-        `https://alfa-educa-server.onrender.com/atividade/${id}`,
+        `http://69.62.97.224:8081/atividade/${id}`,
         {
           method: "DELETE",
           headers: {

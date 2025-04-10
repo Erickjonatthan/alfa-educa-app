@@ -1,6 +1,6 @@
-export const adicionarConquistaUsuario = async (token: string, userId: string, conquistaId: string): Promise<void> => {
+export const desbloquearConquistasUsuario = async (token: string, userId: string): Promise<void> => {
     try {
-        const response = await fetch(`https://alfa-educa-server.onrender.com/conquista/adicionar-ao-usuario/${userId}/${conquistaId}`, {
+        const response = await fetch(`http://69.62.97.224:8081/conquista/desbloquear/${userId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -9,19 +9,21 @@ export const adicionarConquistaUsuario = async (token: string, userId: string, c
         });
 
         if (!response.ok) {
-            let errorMessage = "Erro ao adicionar conquista ao usuário";
-            if (response.status === 401) {
-                errorMessage = "Não autorizado. Verifique suas credenciais.";
+            let errorMessage = "Erro ao desbloquear conquistas para o usuário";
+            if (response.status === 403) {
+                errorMessage = "Acesso proibido. Você não tem permissão para acessar este recurso.";
+            } else if (response.status === 404) {
+                errorMessage = "Usuário não encontrado.";
             } else if (response.status === 500) {
                 errorMessage = "Erro no servidor. Tente novamente mais tarde.";
             }
             throw new Error(errorMessage);
         }
 
-        // Se a resposta for 200 OK, a conquista foi adicionada com sucesso
-        console.log("Conquista adicionada com sucesso");
+        // Se a resposta for 200 OK, as conquistas foram desbloqueadas com sucesso
+        console.log("Conquistas desbloqueadas com sucesso para o usuário");
     } catch (error) {
-        console.error("Erro ao adicionar conquista ao usuário:", error);
+        console.error("Erro ao desbloquear conquistas para o usuário:", error);
         throw error;
     }
 };

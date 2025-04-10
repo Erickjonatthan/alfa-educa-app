@@ -3,7 +3,7 @@ import Task from "@/context/Task";
 export const listarAtividades = async (token: string): Promise<Task[]> => {
     try {
         const response = await fetch(
-            "https://alfa-educa-server.onrender.com/atividade",
+            "http://69.62.97.224:8081/atividade",
             {
                 method: "GET",
                 headers: {

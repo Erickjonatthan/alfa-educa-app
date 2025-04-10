@@ -188,6 +188,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  checkboxLabel: {
+    fontSize: 16,
+    color: "#333",
+  },
 });
 
 export default styles;

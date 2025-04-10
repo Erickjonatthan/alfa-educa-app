@@ -6,7 +6,7 @@ export const criarAtividade = async (
 ): Promise<Task> => {
     try {
         const response = await fetch(
-            "https://alfa-educa-server.onrender.com/atividade",
+            "http://69.62.97.224:8081/atividade",
             {
                 method: "POST",
                 headers: {

@@ -26,7 +26,7 @@ export const extractText = async (
 
       // Enviar a imagem codificada em base64 para o backend
       console.log("Enviando imagem para o backend...");
-      const response = await fetch("https://alfa-educa-server.onrender.com/extrair-texto", {
+      const response = await fetch("http://69.62.97.224:8081/extrair-texto", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -93,7 +93,7 @@ export const extrairTextoComImagem = async (
 
           // Enviar a imagem codificada em base64 para o backend
           console.log("Enviando imagem para o backend...");
-          const response = await fetch("https://alfa-educa-server.onrender.com/extrair-texto", {
+          const response = await fetch("http://69.62.97.224:8081/extrair-texto", {
             method: "POST",
             headers: {
               "Authorization": `Bearer ${token}`,

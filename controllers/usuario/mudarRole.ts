@@ -1,6 +1,6 @@
 export const mudarRole = async (userId: string, token: string): Promise<boolean> => {
     try {
-        const response = await fetch(`https://alfa-educa-server.onrender.com/login/mudar-role/${userId}`, {
+        const response = await fetch(`http://69.62.97.224:8081/login/mudar-role/${userId}`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${token}`

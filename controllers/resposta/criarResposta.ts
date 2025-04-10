@@ -14,7 +14,7 @@ export const criarResposta = async (
         console.log("Usuário ID:", usuarioId);
 
         const response = await fetch(
-            "https://alfa-educa-server.onrender.com/resposta",
+            "http://69.62.97.224:8081/resposta",
             {
                 method: "POST",
                 headers: {

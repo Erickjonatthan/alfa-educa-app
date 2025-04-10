@@ -2,7 +2,7 @@ import { Achievement } from "@/context/Achievement";
 
 export const criarConquista = async (token: string, conquista: Achievement): Promise<Achievement> => {
     try {
-        const response = await fetch("https://alfa-educa-server.onrender.com/conquista", {
+        const response = await fetch("http://69.62.97.224:8081/conquista", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

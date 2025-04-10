@@ -2,7 +2,7 @@ import { Achievement } from "@/context/Achievement";
 
 export const listarTodasConquistas = async (token: string): Promise<Achievement[]> => {
     try {
-        const response = await fetch("https://alfa-educa-server.onrender.com/conquista", {
+        const response = await fetch("http://69.62.97.224:8081/conquista", {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,

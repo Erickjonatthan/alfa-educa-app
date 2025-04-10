@@ -63,7 +63,16 @@ export default function ProfileAchievementsScreen() {
     }, [isAdmin])
   );
 
-  const handleCreateAchievement = async (achievement: { titulo: string; descricao: string; imgConquista: string }) => {
+  const handleCreateAchievement = async (achievement: {
+    titulo: string;
+    descricao: string;
+    imgConquista: string | null;
+    nivelRequerido: number | null;
+    pontosRequeridos: number | null;
+    atividadesRequeridas: number | null;
+    primeiraRespostaCorreta: boolean | null;
+    diasConsecutivosRequeridos: number | null;
+  }) => {
     const token = await AsyncStorage.getItem("token");
     if (!token) {
       Alert.alert("Erro", "Token de autenticação não encontrado.");
@@ -120,6 +129,17 @@ export default function ProfileAchievementsScreen() {
                       <View>
                         <ThemedText>{item.titulo}</ThemedText>
                         <ThemedText>{item.descricao}</ThemedText>
+                        {item.nivelRequerido && <ThemedText>Nível Requerido: {item.nivelRequerido}</ThemedText>}
+                        {item.pontosRequeridos && <ThemedText>Pontos Requeridos: {item.pontosRequeridos}</ThemedText>}
+                        {item.atividadesRequeridas && <ThemedText>Atividades Requeridas: {item.atividadesRequeridas}</ThemedText>}
+                        {item.primeiraRespostaCorreta !== null && (
+                          <ThemedText>
+                            Primeira Resposta Correta: {item.primeiraRespostaCorreta ? "Sim" : "Não"}
+                          </ThemedText>
+                        )}
+                        {item.diasConsecutivosRequeridos && (
+                          <ThemedText>Dias Consecutivos Requeridos: {item.diasConsecutivosRequeridos}</ThemedText>
+                        )}
                       </View>
                     </View>
                   </View>
@@ -151,6 +171,17 @@ export default function ProfileAchievementsScreen() {
                       <View>
                         <ThemedText>{item.titulo}</ThemedText>
                         <ThemedText>{item.descricao}</ThemedText>
+                        {item.nivelRequerido && <ThemedText>Nível Requerido: {item.nivelRequerido}</ThemedText>}
+                        {item.pontosRequeridos && <ThemedText>Pontos Requeridos: {item.pontosRequeridos}</ThemedText>}
+                        {item.atividadesRequeridas && <ThemedText>Atividades Requeridas: {item.atividadesRequeridas}</ThemedText>}
+                        {item.primeiraRespostaCorreta !== null && (
+                          <ThemedText>
+                            Primeira Resposta Correta: {item.primeiraRespostaCorreta ? "Sim" : "Não"}
+                          </ThemedText>
+                        )}
+                        {item.diasConsecutivosRequeridos && (
+                          <ThemedText>Dias Consecutivos Requeridos: {item.diasConsecutivosRequeridos}</ThemedText>
+                        )}
                       </View>
                     </View>
                   </View>

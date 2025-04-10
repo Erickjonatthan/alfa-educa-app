@@ -13,10 +13,7 @@ import UserProvider, { useUser } from "@/context/UserContext";
 import { useBackRedirect } from "@/hooks/useBackRedirect";
 import { ThemedView } from "@/components/ThemedView";
 import useLogout from "@/hooks/useLogout"; // Importa o hook de logout
-import { adicionarConquistaUsuario } from "@/controllers/conquista/adicionarConquistaUsuario";
-
-const CONQUISTA_ID = '5799edc8-0b5e-465e-b2e0-176e47e31ea2';
-
+import { desbloquearConquistasUsuario } from "@/controllers/conquista/adicionarConquistaUsuario"; // Importa o novo método
 
 function TabLayoutContent() {
   const colorScheme = useColorScheme();
@@ -30,7 +27,7 @@ function TabLayoutContent() {
 
   const fetchUserData = async (token: string, userId: string) => {
     try {
-      const response = await fetch(`https://alfa-educa-server.onrender.com/cadastro/${userId}`, {
+      const response = await fetch(`http://69.62.97.224:8081/cadastro/${userId}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -41,17 +38,13 @@ function TabLayoutContent() {
       if (response.ok) {
         const userData = await response.json();
         setUser(userData); // Atualize o contexto com os dados do usuário
-        // Verificar se o usuário já possui a conquista
-        const hasConquista = userData.conquistas?.some((conquista: { id: string; }) => conquista.id === CONQUISTA_ID);
-  
-        // Adicionar conquista ao usuário se ele estiver no nível 1 e não possuir a conquista
-        if (userData.nivel >= 1 && !hasConquista) {
-          try {
-            await adicionarConquistaUsuario(token, userId, CONQUISTA_ID);
-            console.log('Conquista adicionada com sucesso');
-          } catch (error) {
-            console.error('Erro ao adicionar conquista:', error);
-          }
+
+        // Chama o método para desbloquear conquistas do usuário
+        try {
+          await desbloquearConquistasUsuario(token, userId);
+          console.log('Conquistas desbloqueadas com sucesso');
+        } catch (error) {
+          console.error('Erro ao desbloquear conquistas:', error);
         }
       } else if (response.status === 403) {
         console.log('Usuário não autorizado ou não encontrado, redirecionando para login.');

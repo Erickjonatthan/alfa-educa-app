@@ -5,7 +5,7 @@ export const listarResposta = async (
 ): Promise<any> => {
     try {
         const response = await fetch(
-            "https://alfa-educa-server.onrender.com/resposta/usuario/respostas",
+            "http://69.62.97.224:8081/resposta/usuario/respostas",
             {
                 method: "GET",
                 headers: {

@@ -22,7 +22,7 @@ export function useForgotPassword() {
 
     setLoading(true);
     try {
-      const response = await fetch('https://alfa-educa-server.onrender.com/login/recuperar-senha', {
+      const response = await fetch('http://69.62.97.224:8081/login/recuperar-senha', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

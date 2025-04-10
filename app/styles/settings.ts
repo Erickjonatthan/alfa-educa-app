@@ -61,8 +61,9 @@ const styles = StyleSheet.create({
       backgroundColor: '#000000FF',
     },
     taskInfoContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
+      flexDirection: "column",
+      flexWrap: "wrap", // Permite que o texto quebre em várias linhas
+      maxWidth: "100%", // Garante que o conteúdo não ultrapasse a largura do contêiner
     },
     achievementImage: {
       width: 50,

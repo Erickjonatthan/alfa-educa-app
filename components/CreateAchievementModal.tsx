@@ -13,14 +13,21 @@ import * as ImagePicker from "expo-image-picker";
 import { ThemedText } from "@/components/ThemedText";
 import styles from "@/app/styles/manage-tasks";
 
+interface Achievement {
+  titulo: string;
+  descricao: string;
+  imgConquista: string | null;
+  nivelRequerido: number | null;
+  pontosRequeridos: number | null;
+  atividadesRequeridas: number | null;
+  primeiraRespostaCorreta: boolean | null;
+  diasConsecutivosRequeridos: number | null;
+}
+
 interface CreateAchievementModalProps {
   visible: boolean;
   onClose: () => void;
-  onCreate: (achievement: {
-    titulo: string;
-    descricao: string;
-    imgConquista: string;
-  }) => Promise<void>;
+  onCreate: (achievement: Achievement) => Promise<void>;
 }
 
 const CreateAchievementModal: React.FC<CreateAchievementModalProps> = ({
@@ -28,10 +35,15 @@ const CreateAchievementModal: React.FC<CreateAchievementModalProps> = ({
   onClose,
   onCreate,
 }) => {
-  const [achievement, setAchievement] = useState({
+  const [achievement, setAchievement] = useState<Achievement>({
     titulo: "",
     descricao: "",
-    imgConquista: "",
+    imgConquista: null,
+    nivelRequerido: null,
+    pontosRequeridos: null,
+    atividadesRequeridas: null,
+    primeiraRespostaCorreta: null,
+    diasConsecutivosRequeridos: null,
   });
   const [isCreating, setIsCreating] = useState(false);
   const [tempImage, setTempImage] = useState<string | null>(null);
@@ -54,12 +66,12 @@ const CreateAchievementModal: React.FC<CreateAchievementModalProps> = ({
       allowsEditing: true,
       aspect: [3, 4],
       quality: 1,
-      base64: true, // Ativa o Base64 para facilitar o envio
+      base64: true,
     });
 
     if (!result.canceled && result.assets && result.assets.length > 0) {
-      setTempImage(result.assets[0].uri); // Configura a imagem temporária para exibição
-      setBase64Image(result.assets[0].base64 ?? null); // Configura a imagem em Base64
+      setTempImage(result.assets[0].uri);
+      setBase64Image(result.assets[0].base64 ?? null);
     } else {
       Alert.alert("Aviso", "Nenhuma imagem foi selecionada.");
     }
@@ -91,6 +103,68 @@ const CreateAchievementModal: React.FC<CreateAchievementModalProps> = ({
             value={achievement.descricao}
             onChangeText={(text) =>
               setAchievement((prev) => ({ ...prev, descricao: text }))
+            }
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Nível Requerido (opcional)"
+            keyboardType="numeric"
+            value={achievement.nivelRequerido?.toString() || ""}
+            onChangeText={(text) =>
+              setAchievement((prev) => ({
+                ...prev,
+                nivelRequerido: text ? parseInt(text, 10) : null,
+              }))
+            }
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Pontos Requeridos (opcional)"
+            keyboardType="numeric"
+            value={achievement.pontosRequeridos?.toString() || ""}
+            onChangeText={(text) =>
+              setAchievement((prev) => ({
+                ...prev,
+                pontosRequeridos: text ? parseInt(text, 10) : null,
+              }))
+            }
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Atividades Requeridas (opcional)"
+            keyboardType="numeric"
+            value={achievement.atividadesRequeridas?.toString() || ""}
+            onChangeText={(text) =>
+              setAchievement((prev) => ({
+                ...prev,
+                atividadesRequeridas: text ? parseInt(text, 10) : null,
+              }))
+            }
+          />
+          <TouchableOpacity
+            style={styles.checkboxContainer}
+            onPress={() =>
+              setAchievement((prev) => ({
+                ...prev,
+                primeiraRespostaCorreta: !prev.primeiraRespostaCorreta,
+              }))
+            }
+          >
+            <Text style={styles.checkboxLabel}>
+              Primeira Resposta Correta (opcional):{" "}
+              {achievement.primeiraRespostaCorreta ? "Sim" : "Não"}
+            </Text>
+          </TouchableOpacity>
+          <TextInput
+            style={styles.input}
+            placeholder="Dias Consecutivos Requeridos (opcional)"
+            keyboardType="numeric"
+            value={achievement.diasConsecutivosRequeridos?.toString() || ""}
+            onChangeText={(text) =>
+              setAchievement((prev) => ({
+                ...prev,
+                diasConsecutivosRequeridos: text ? parseInt(text, 10) : null,
+              }))
             }
           />
           <TouchableOpacity style={styles.button} onPress={pickImage}>
