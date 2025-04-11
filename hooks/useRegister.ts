@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Alert, Platform } from 'react-native';
 import { useLogin } from './useLogin'; // Importe a função useLogin
 import User from '@/context/User';
+import { API_URL } from "@/constants/ApiUrl";
 
 export function useRegister() {
   const [loading, setLoading] = useState(false);
@@ -60,7 +61,7 @@ export function useRegister() {
     setLoading(true);
     try {
       console.log('Iniciando cadastro...');
-      const response = await fetch('http://69.62.97.224:8081/cadastro', {
+      const response = await fetch(`${API_URL}/cadastro`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,6 +1,7 @@
+import { API_URL } from "@/constants/ApiUrl";
 export const desbloquearConquistasUsuario = async (token: string, userId: string): Promise<void> => {
     try {
-        const response = await fetch(`http://69.62.97.224:8081/conquista/desbloquear/${userId}`, {
+        const response = await fetch(`${API_URL}/conquista/desbloquear/${userId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

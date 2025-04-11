@@ -1,8 +1,9 @@
 import { Achievement } from "@/context/Achievement";
+import { API_URL } from "@/constants/ApiUrl";
 
 export const listarConquistaUsuario = async (token: string, userId: string): Promise<Achievement[]> => {
     try {
-        const response = await fetch(`http://69.62.97.224:8081/conquista/listar/${userId}`, {
+        const response = await fetch(`${API_URL}/conquista/listar/${userId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

@@ -1,11 +1,12 @@
 import Answer from "@/context/Answer";
+import { API_URL } from "@/constants/ApiUrl";
 
 export const listarResposta = async (
     token: string,
 ): Promise<any> => {
     try {
         const response = await fetch(
-            "http://69.62.97.224:8081/resposta/usuario/respostas",
+            `${API_URL}/resposta/usuario/respostas`,
             {
                 method: "GET",
                 headers: {

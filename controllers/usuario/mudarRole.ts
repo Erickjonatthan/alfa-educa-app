@@ -1,6 +1,8 @@
+import { API_URL } from "@/constants/ApiUrl";
+
 export const mudarRole = async (userId: string, token: string): Promise<boolean> => {
     try {
-        const response = await fetch(`http://69.62.97.224:8081/login/mudar-role/${userId}`, {
+        const response = await fetch(`${API_URL}/login/mudar-role/${userId}`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${token}`

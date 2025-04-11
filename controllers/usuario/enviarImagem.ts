@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import User from "@/context/User";
+import { API_URL } from "@/constants/ApiUrl";
 
 export const enviarImagem = async (base64Image: string | null, user: User | null, setUser: (user: User) => void, setImage: (image: string | null) => void, setTempImage: (image: string | null) => void, setBase64Image: (image: string | null) => void) => {
   if (base64Image) {
@@ -9,7 +10,7 @@ export const enviarImagem = async (base64Image: string | null, user: User | null
       const userId = user?.id;
 
       const response = await fetch(
-        `http://69.62.97.224:8081/cadastro`,
+        `${API_URL}/cadastro`,
         {
           method: "PUT",
           headers: {

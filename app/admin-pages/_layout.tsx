@@ -14,6 +14,7 @@ import { useBackRedirect } from "@/hooks/useBackRedirect";
 import { ThemedView } from "@/components/ThemedView";
 import useLogout from "@/hooks/useLogout"; // Importa o hook de logout
 import { desbloquearConquistasUsuario } from "@/controllers/conquista/adicionarConquistaUsuario"; // Importa o novo método
+import { API_URL } from "@/constants/ApiUrl";
 
 function TabLayoutContent() {
   const colorScheme = useColorScheme();
@@ -27,7 +28,7 @@ function TabLayoutContent() {
 
   const fetchUserData = async (token: string, userId: string) => {
     try {
-      const response = await fetch(`http://69.62.97.224:8081/cadastro/${userId}`, {
+      const response = await fetch(`${API_URL}/cadastro/${userId}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -1,7 +1,9 @@
+import { API_URL } from "@/constants/ApiUrl";
+
 export const deletarAtividade = async (id: string, token: string) => {
     try {
       const response = await fetch(
-        `http://69.62.97.224:8081/atividade/${id}`,
+        `${API_URL}/atividade/${id}`,
         {
           method: "DELETE",
           headers: {

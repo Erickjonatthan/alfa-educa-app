@@ -1,4 +1,5 @@
 import Answer from "@/context/Answer";
+import { API_URL } from "@/constants/ApiUrl";
 
 export const criarResposta = async (
     token: string,
@@ -14,7 +15,7 @@ export const criarResposta = async (
         console.log("Usuário ID:", usuarioId);
 
         const response = await fetch(
-            "http://69.62.97.224:8081/resposta",
+            `${API_URL}/resposta`,
             {
                 method: "POST",
                 headers: {

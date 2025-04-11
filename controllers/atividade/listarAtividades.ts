@@ -1,9 +1,10 @@
 import Task from "@/context/Task";
+import { API_URL } from "@/constants/ApiUrl";
 
 export const listarAtividades = async (token: string): Promise<Task[]> => {
     try {
         const response = await fetch(
-            "http://69.62.97.224:8081/atividade",
+            `${API_URL}/atividade`,
             {
                 method: "GET",
                 headers: {

@@ -1,0 +1,1 @@
+export const API_URL = 'https://alfaeduca.ejms-api.shop';

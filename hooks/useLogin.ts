@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Alert, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
+import { API_URL } from "@/constants/ApiUrl";
 
 export function useLogin() {
   const [loading, setLoading] = useState(false);
@@ -34,7 +35,7 @@ export function useLogin() {
     setLoading(true);
     console.log('Iniciando login...');
     try {
-      const response = await fetch('http://69.62.97.224:8081/login', {
+      const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,7 +1,9 @@
+import { API_URL } from "@/constants/ApiUrl";
+
 export const deletarConta = async (id: string, token: string) => {
   try {
     const response = await fetch(
-      `http://69.62.97.224:8081/cadastro/${id}`,
+      `${API_URL}/cadastro/${id}`,
       {
         method: "DELETE",
         headers: {

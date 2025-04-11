@@ -17,11 +17,13 @@ import User from "@/context/User";
 import styles from "../styles/edit-profile";
 import { useUser } from "@/context/UserContext";
 import { useEmailValidation } from "@/hooks/useEmailValidation";
+import { useImageCompressor } from "@/hooks/useImageCompressor"; // Importe o hook
 
 export default function EditProfileScreen() {
   const router = useRouter();
   const { user, setUser } = useUser();
   const { validateEmail } = useEmailValidation();
+  const { compressImage } = useImageCompressor(); // Use o hook
   const [nome, setNome] = useState<string>(user?.nome.trim() ?? "");
   const [email, setEmail] = useState<string>(user?.email.trim() ?? "");
   const [senha, setSenha] = useState<string>("");
@@ -57,13 +59,29 @@ export default function EditProfileScreen() {
       mediaTypes: ["images"],
       allowsEditing: true,
       aspect: [3, 4],
-      quality: 1,
+      quality: 1, // Qualidade máxima ao selecionar
       base64: true,
     });
 
     if (!result.canceled && result.assets && result.assets.length > 0) {
-      setTempImage(result.assets[0].uri);
-      setBase64Image(result.assets[0].base64 ?? undefined);
+      try {
+        // Comprime a imagem selecionada
+        const compressedUri = await compressImage(result.assets[0].uri, 0.5); // Reduz a qualidade para 50%
+        setTempImage(compressedUri);
+
+        // Converte a imagem comprimida para base64
+        const response = await fetch(compressedUri);
+        const blob = await response.blob();
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = () => {
+          const base64data = reader.result?.toString().split(",")[1];
+          setBase64Image(base64data);
+        };
+      } catch (error) {
+        Alert.alert("Erro", "Erro ao processar a imagem.");
+        console.error("Erro ao comprimir ou processar a imagem:", error);
+      }
     } else {
       Alert.alert("Aviso", "Nenhuma imagem foi selecionada.");
     }

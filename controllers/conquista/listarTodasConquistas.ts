@@ -1,8 +1,9 @@
 import { Achievement } from "@/context/Achievement";
+import { API_URL } from "@/constants/ApiUrl";
 
 export const listarTodasConquistas = async (token: string): Promise<Achievement[]> => {
     try {
-        const response = await fetch("http://69.62.97.224:8081/conquista", {
+        const response = await fetch(`${API_URL}/conquista`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,

@@ -1,5 +1,6 @@
 import { CameraCapturedPicture } from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL } from "@/constants/ApiUrl";
 
 export const extractText = async (
   photo: CameraCapturedPicture,
@@ -26,7 +27,7 @@ export const extractText = async (
 
       // Enviar a imagem codificada em base64 para o backend
       console.log("Enviando imagem para o backend...");
-      const response = await fetch("http://69.62.97.224:8081/extrair-texto", {
+      const response = await fetch(`${API_URL}/extrair-texto`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -93,7 +94,7 @@ export const extrairTextoComImagem = async (
 
           // Enviar a imagem codificada em base64 para o backend
           console.log("Enviando imagem para o backend...");
-          const response = await fetch("http://69.62.97.224:8081/extrair-texto", {
+          const response = await fetch(`${API_URL}/extrair-texto`, {
             method: "POST",
             headers: {
               "Authorization": `Bearer ${token}`,

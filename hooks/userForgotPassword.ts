@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Alert, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
+import { API_URL } from "@/constants/ApiUrl";
 
 export function useForgotPassword() {
   const [loading, setLoading] = useState(false);
@@ -22,7 +23,7 @@ export function useForgotPassword() {
 
     setLoading(true);
     try {
-      const response = await fetch('http://69.62.97.224:8081/login/recuperar-senha', {
+      const response = await fetch(`${API_URL}/login/recuperar-senha`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,7 +1,9 @@
+import { API_URL } from "@/constants/ApiUrl";
+
 export const pegarInfoUsuario = async (token: string, userId: string) => {
     try {
         const response = await fetch(
-            `http://69.62.97.224:8081/cadastro/${userId}`,
+            `${API_URL}/cadastro/${userId}`,
             {
                 method: 'GET',
                 headers: {
