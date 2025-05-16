@@ -28,7 +28,7 @@ interface CameraScreenFilteredProps {
 export default function CameraScreenFiltered({ route, onCapture }: CameraScreenFilteredProps) {
   const { filterWord } = route.params;
   const [permission, requestPermission] = useCameraPermissions();
-  const [photo, setPhoto] = useState<CameraCapturedPicture | null>(null);
+  const [photo, setPhoto] = useState<CameraCapturedPicture | ImageManipulator.ImageResult | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [extractedText, setExtractedText] = useState<string | null>(null);
   const [syllabifiedText, setSyllabifiedText] = useState<string | null>(null);

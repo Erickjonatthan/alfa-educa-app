@@ -1,6 +1,7 @@
 import { CameraCapturedPicture } from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_URL } from "@/constants/ApiUrl";
+import * as ImageManipulator from 'expo-image-manipulator';
 
 export const extractText = async (
   photo: CameraCapturedPicture,
@@ -72,7 +73,7 @@ export const extractText = async (
 };
 
 export const extrairTextoComImagem = async (
-  photo: CameraCapturedPicture
+  photo: CameraCapturedPicture | ImageManipulator.ImageResult
 ): Promise<{ extractedText: string | null, syllabifiedText: string | null }> => {
   const token = await AsyncStorage.getItem("token");
 

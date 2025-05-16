@@ -8,7 +8,8 @@
     },
     "jsx": "react",
     "esModuleInterop": true,
-    "module": "ESNext"
+    "module": "ESNext",
+    "forceConsistentCasingInFileNames": true
   },  "include": [
     "**/*.ts",
     "**/*.tsx",
