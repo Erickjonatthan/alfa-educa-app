@@ -15,6 +15,8 @@ import UserProvider, { useUser } from "@/context/UserContext";
 import { ThemedView } from "@/components/ThemedView";
 import { desbloquearConquistasUsuario } from '@/controllers/conquista/adicionarConquistaUsuario'; // Substitui o método anterior
 import { API_URL } from "@/constants/ApiUrl";
+import HomeIcon from '@/assets/images/icons/fluent-color--home-16.svg';
+import TaskIcon from '@/assets/images/icons/fluent-emoji-flat--pencil.svg';
 
 function TabLayoutContent() {
   const colorScheme = useColorScheme();
@@ -139,8 +141,8 @@ function TabLayoutContent() {
         name="home"
         options={{
           title: " Início ",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+          tabBarIcon: () => (
+            <HomeIcon width={28} height={28} />
           ),
         }}
       />
@@ -157,8 +159,8 @@ function TabLayoutContent() {
         name="tasks"
         options={{
           title: "Atividades ",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={21} name="task.fill" color={color} />
+          tabBarIcon: () => (
+            <TaskIcon width={28} height={28} />
           ),
         }}
       />

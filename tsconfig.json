@@ -7,13 +7,14 @@
       ]
     },
     "jsx": "react",
-    "esModuleInterop": true
-  },
-  "include": [
+    "esModuleInterop": true,
+    "module": "ESNext"
+  },  "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "expo-env.d.ts",
+    "types/svg.d.ts"
   ],
   "extends": "expo/tsconfig.base"
 }
