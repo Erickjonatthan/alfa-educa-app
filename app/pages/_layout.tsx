@@ -1,9 +1,8 @@
 import { router, Tabs, usePathname } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Platform, ActivityIndicator, Text } from "react-native";
+import { Platform, ActivityIndicator, Text, View } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from "@react-navigation/native";
-
 import { HapticTab } from "@/components/HapticTab";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import TabBarBackground from "@/components/ui/TabBarBackground";
@@ -17,6 +16,9 @@ import { desbloquearConquistasUsuario } from '@/controllers/conquista/adicionarC
 import { API_URL } from "@/constants/ApiUrl";
 import HomeIcon from '@/assets/images/icons/fluent-color--home-16.svg';
 import TaskIcon from '@/assets/images/icons/fluent-emoji-flat--pencil.svg';
+import CameraIcon from '@/assets/images/icons/fluent-emoji--camera.svg';
+import ProfileIcon from '@/assets/images/icons/fluent-emoji-flat--bust-in-silhouette.svg';
+
 
 function TabLayoutContent() {
   const colorScheme = useColorScheme();
@@ -140,36 +142,31 @@ function TabLayoutContent() {
       <Tabs.Screen
         name="home"
         options={{
-          title: " Início ",
-          tabBarIcon: () => (
-            <HomeIcon width={28} height={28} />
+          title: " Início ",          tabBarIcon: () => (
+            <HomeIcon width={32} height={32} />
           ),
         }}
-      />
-      <Tabs.Screen
-        name="camera"
-        options={{
-          title: " Câmera ",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={21} name="camera" color={color} />
+      />      <Tabs.Screen        name="camera"
+        options={{          title: " Câmera ",          tabBarIcon: () => (
+            <View style={{ marginTop: -4 }}>
+              <CameraIcon width={38} height={38} />
+            </View>
           ),
         }}
       />
       <Tabs.Screen
         name="tasks"
         options={{
-          title: "Atividades ",
-          tabBarIcon: () => (
-            <TaskIcon width={28} height={28} />
+          title: "Atividades ",          tabBarIcon: () => (
+            <TaskIcon width={32} height={32} />
           ),
         }}
-      />
-      <Tabs.Screen
+      />      <Tabs.Screen
         name="profile"
         options={{
           title: " Perfil ",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={21} name="user-alt" color={color} />
+          tabBarIcon: () => (
+            <ProfileIcon width={32} height={32} />
           ),
         }}
       />
