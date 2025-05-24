@@ -7,7 +7,9 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import React, { useEffect, useState } from "react";
 import styles from "../styles/profile";
 import { useUser } from "@/context/UserContext";
-import { ProgressBar } from "react-native-paper"; // Adicione esta linha para importar a barra de progresso
+import { ProgressBar } from "react-native-paper";
+import GearIcon from "@/assets/images/icons/mdi--gear.svg";
+import TrophyIcon from "@/assets/images/icons/fluent-emoji-flat--trophy.svg";
 
 export default function ProfileScreen() {
   const { user } = useUser();
@@ -31,7 +33,6 @@ export default function ProfileScreen() {
   const level = Math.floor(totalXp / 100);
   const xp = totalXp % 100;
   const xpPercentage = xp / 100; // Calcula a porcentagem de XP
-
 
   return (
     <ScrollView
@@ -104,10 +105,9 @@ export default function ProfileScreen() {
         ]}
         onPress={handleAchievements}
       >
-        <IconSymbol
-          name="trophy"
-          size={20}
-          color={isDarkMode ? "#fff" : "#000"}
+        <TrophyIcon
+          width={20}
+          height={20}
           style={styles.optionIcon}
         />
         <ThemedText
@@ -126,10 +126,9 @@ export default function ProfileScreen() {
         ]}
         onPress={handleSettings}
       >
-        <IconSymbol
-          name="settings"
-          size={20}
-          color={isDarkMode ? "#fff" : "#000"}
+        <GearIcon
+          width={20}
+          height={20}
           style={styles.optionIcon}
         />
         <ThemedText
