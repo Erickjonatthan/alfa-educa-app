@@ -10,6 +10,7 @@ import { useUser } from "@/context/UserContext";
 import { ProgressBar } from "react-native-paper";
 import GearIcon from "@/assets/images/icons/mdi--gear.svg";
 import TrophyIcon from "@/assets/images/icons/fluent-emoji-flat--trophy.svg";
+import UserEditIcon from "@/assets/images/icons/mingcute--user-edit-fill.svg";
 
 export default function ProfileScreen() {
   const { user } = useUser();
@@ -83,10 +84,9 @@ export default function ProfileScreen() {
         ]}
         onPress={handleEditProfile}
       >
-        <IconSymbol
-          name="user-edit"
-          size={20}
-          color={isDarkMode ? "#fff" : "#000"}
+        <UserEditIcon
+          width={24}
+          height={24}
           style={styles.optionIcon}
         />
         <ThemedText
@@ -106,8 +106,8 @@ export default function ProfileScreen() {
         onPress={handleAchievements}
       >
         <TrophyIcon
-          width={20}
-          height={20}
+          width={24}
+          height={24}
           style={styles.optionIcon}
         />
         <ThemedText
@@ -127,8 +127,8 @@ export default function ProfileScreen() {
         onPress={handleSettings}
       >
         <GearIcon
-          width={20}
-          height={20}
+          width={24}
+          height={24}
           style={styles.optionIcon}
         />
         <ThemedText
