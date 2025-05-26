@@ -14,6 +14,8 @@ import UserProvider, { useUser } from "@/context/UserContext";
 import { ThemedView } from "@/components/ThemedView";
 import { desbloquearConquistasUsuario } from '@/controllers/conquista/adicionarConquistaUsuario'; // Substitui o método anterior
 import { API_URL } from "@/constants/ApiUrl";
+
+// Importações dos ícones SVG
 import HomeIcon from '@/assets/images/icons/fluent-color--home-16.svg';
 import TaskIcon from '@/assets/images/icons/fluent-emoji-flat--pencil.svg';
 import CameraIcon from '@/assets/images/icons/fluent-emoji--camera.svg';

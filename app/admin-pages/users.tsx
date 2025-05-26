@@ -332,7 +332,11 @@ export default function UsersScreen() {
                                 onPress={() => handlePromoteUser(item.id ?? "")}
                                 style={[
                                   styles.button,
-                                  { backgroundColor: "#00A849FF" },
+                                  { 
+                                    backgroundColor: "#00A849FF",
+                                    minWidth: 90,
+                                    paddingHorizontal: 8
+                                  },
                                 ]}
                               >
                                 <Text style={styles.buttonText}>Promover</Text>
@@ -342,7 +346,11 @@ export default function UsersScreen() {
                                 onPress={() => handleRevokeAdmin(item.id ?? "")}
                                 style={[
                                   styles.button,
-                                  { backgroundColor: "#FF7B00FF" },
+                                  { 
+                                    backgroundColor: "#FF7B00FF",
+                                    minWidth: 90,
+                                    paddingHorizontal: 8
+                                  },
                                 ]}
                               >
                                 <Text style={styles.buttonText}>Revogar</Text>
@@ -352,7 +360,11 @@ export default function UsersScreen() {
                               onPress={() => handleEditUser(item)}
                               style={[
                                 styles.button,
-                                { backgroundColor: "#004B7DFF" },
+                                { 
+                                  backgroundColor: "#004B7DFF",
+                                  minWidth: 90,
+                                  paddingHorizontal: 8
+                                },
                               ]}
                             >
                               <Text style={styles.buttonText}>Editar</Text>
@@ -361,7 +373,11 @@ export default function UsersScreen() {
                               onPress={() => handleDeleteUser(item.id ?? "")}
                               style={[
                                 styles.button,
-                                { backgroundColor: "#C02401FF" },
+                                { 
+                                  backgroundColor: "#C02401FF",
+                                  minWidth: 90,
+                                  paddingHorizontal: 8
+                                },
                               ]}
                             >
                               <Text style={styles.buttonText}>Excluir</Text>

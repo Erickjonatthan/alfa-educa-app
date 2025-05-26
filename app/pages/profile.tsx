@@ -8,6 +8,8 @@ import React, { useEffect, useState } from "react";
 import styles from "../styles/profile";
 import { useUser } from "@/context/UserContext";
 import { ProgressBar } from "react-native-paper";
+
+// Importações dos ícones SVG
 import GearIcon from "@/assets/images/icons/mdi--gear.svg";
 import TrophyIcon from "@/assets/images/icons/fluent-emoji-flat--trophy.svg";
 import UserEditIcon from "@/assets/images/icons/mingcute--user-edit-fill.svg";

@@ -2,7 +2,6 @@ import { router, Tabs, usePathname } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Platform, ActivityIndicator, Text } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { HapticTab } from "@/components/HapticTab";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import TabBarBackground from "@/components/ui/TabBarBackground";
@@ -12,9 +11,15 @@ import { useAuth } from "@/hooks/useAuth";
 import UserProvider, { useUser } from "@/context/UserContext";
 import { useBackRedirect } from "@/hooks/useBackRedirect";
 import { ThemedView } from "@/components/ThemedView";
-import useLogout from "@/hooks/useLogout"; // Importa o hook de logout
-import { desbloquearConquistasUsuario } from "@/controllers/conquista/adicionarConquistaUsuario"; // Importa o novo método
+import useLogout from "@/hooks/useLogout";
+import { desbloquearConquistasUsuario } from "@/controllers/conquista/adicionarConquistaUsuario";
 import { API_URL } from "@/constants/ApiUrl";
+
+// Importações dos ícones SVG
+import HomeIcon from '@/assets/images/icons/fluent-color--home-16.svg';
+import ProfileIcon from '@/assets/images/icons/fluent-emoji-flat--bust-in-silhouette.svg';
+import ClipboardTaskListIcon from '@/assets/images/icons/fluent--clipboard-task-list-16-filled.svg';
+import UsersIcon from '@/assets/images/icons/mdi--users.svg';
 
 function TabLayoutContent() {
   const colorScheme = useColorScheme();
@@ -124,8 +129,8 @@ function TabLayoutContent() {
         name="home"
         options={{
           title: " Início ",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+          tabBarIcon: () => (
+            <HomeIcon width={32} height={32} />
           ),
         }}
       />
@@ -133,8 +138,8 @@ function TabLayoutContent() {
         name="manage-tasks"
         options={{
           title: " Atividades ",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={21} name="task.fill" color={color} />
+          tabBarIcon: () => (
+            <ClipboardTaskListIcon width={32} height={32} />
           ),
         }}
       />
@@ -142,8 +147,8 @@ function TabLayoutContent() {
         name="users"
         options={{
           title: " Usuários ",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={21} name="users" color={color} />
+          tabBarIcon: () => (
+            <UsersIcon width={32} height={32} />
           ),
         }}
       />
@@ -151,8 +156,8 @@ function TabLayoutContent() {
         name="profile"
         options={{
           title: " Perfil ",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={21} name="user-alt" color={color} />
+          tabBarIcon: () => (
+            <ProfileIcon width={32} height={32} />
           ),
         }}
       />

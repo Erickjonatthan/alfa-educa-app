@@ -6,7 +6,6 @@ import {
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { IconSymbol } from "@/components/ui/IconSymbol";
 import { useRouter } from "expo-router";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import React, {  } from "react";
@@ -14,6 +13,11 @@ import styles from "../styles/profile";
 import { useUser } from "@/context/UserContext";
 import User from "@/context/User";
 import { ProgressBar } from "react-native-paper";
+
+// Importações dos ícones SVG
+import GearIcon from "@/assets/images/icons/mdi--gear.svg";
+import TrophyIcon from "@/assets/images/icons/fluent-emoji-flat--trophy.svg";
+import UserEditIcon from "@/assets/images/icons/mingcute--user-edit-fill.svg";
 
 export default function ProfileScreen() {
   const { user, setUser } = useUser();
@@ -87,10 +91,9 @@ export default function ProfileScreen() {
         ]}
         onPress={handleEditProfile}
       >
-        <IconSymbol
-          name="user-edit"
-          size={20}
-          color={isDarkMode ? "#fff" : "#000"}
+        <UserEditIcon
+          width={24}
+          height={24}
           style={styles.optionIcon}
         />
         <ThemedText
@@ -109,10 +112,9 @@ export default function ProfileScreen() {
         ]}
         onPress={handleAchievements}
       >
-        <IconSymbol
-          name="trophy"
-          size={20}
-          color={isDarkMode ? "#fff" : "#000"}
+        <TrophyIcon
+          width={24}
+          height={24}
           style={styles.optionIcon}
         />
         <ThemedText
@@ -131,10 +133,9 @@ export default function ProfileScreen() {
         ]}
         onPress={handleSettings}
       >
-        <IconSymbol
-          name="settings"
-          size={20}
-          color={isDarkMode ? "#fff" : "#000"}
+        <GearIcon
+          width={24}
+          height={24}
           style={styles.optionIcon}
         />
         <ThemedText
