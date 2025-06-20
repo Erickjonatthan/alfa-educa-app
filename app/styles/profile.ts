@@ -19,6 +19,16 @@ const styles = StyleSheet.create({
     title: {
       textAlign: 'center',
     },
+    imageContainer: {
+      width: '100%',
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    logoImage: {
+      width: 200,
+      height: 50,
+      resizeMode: 'contain',
+    },
     profileImageContainer: {
       marginBottom: 16,
     },

@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from 'react';
 import {
   View,
   ScrollView,
   ActivityIndicator,
-  useColorScheme,
   TouchableOpacity,
-  Image
-} from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRouter } from "expo-router";
-import { useFocusEffect } from "@react-navigation/native";
+  Image,
+  useColorScheme,
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
+import { useFocusEffect } from '@react-navigation/native';
 
-import { ThemedText } from "@/components/ThemedText";
-import { listarAtividades } from "@/controllers/atividade/listarAtividades";
-import { listarResposta } from "@/controllers/resposta/listarResposta";
-import { ThemedView } from "@/components/ThemedView";
-import Task from "@/context/Task";
-import Answer from "@/context/Answer";
-import TaskModal from "@/components/TaskModal";
-import styles from "../styles/tasks";
+import { ThemedText } from '@/components/ThemedText';
+import { listarAtividades } from '@/controllers/atividade/listarAtividades';
+import { listarResposta } from '@/controllers/resposta/listarResposta';
+import Task from '@/context/Task';
+import Answer from '@/context/Answer';
+import TaskModal from '@/components/TaskModal';
+import styles from '../styles/tasks';
 
 export default function TasksScreen() {
   const [atividades, setAtividades] = useState<Task[]>([]);
@@ -27,21 +26,23 @@ export default function TasksScreen() {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === "dark";
+  const isDarkMode = colorScheme === 'dark';
   const router = useRouter();
 
   const fetchAtividades = async () => {
     setIsLoading(true);
     try {
-      const token = await AsyncStorage.getItem("token");
+      const token = await AsyncStorage.getItem('token');
       if (token) {
-        const data = await listarAtividades(token);
+        const [data, respostasData] = await Promise.all([
+          listarAtividades(token),
+          listarResposta(token),
+        ]);
         setAtividades(data);
-        const respostasData = await listarResposta(token);
         setRespostas(respostasData);
       }
     } catch (error) {
-      console.error("Erro ao buscar atividades:", error);
+      console.error('Erro ao buscar atividades:', error);
     } finally {
       setIsLoading(false);
     }
@@ -67,7 +68,7 @@ export default function TasksScreen() {
     if (selectedTask && selectedTask.id && !isTaskFinalizada(selectedTask.id)) {
       closeModal();
       router.push({
-        pathname: "/task-page/task",
+        pathname: '/task-page/task',
         params: { task: JSON.stringify(selectedTask) },
       });
     }
@@ -80,66 +81,57 @@ export default function TasksScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <View
-        style={[
-          styles.container,
-          isDarkMode ? styles.containerDark : styles.containerLight,
-        ]}
-      >      
-      <View style={styles.imageContainer}>
-      <Image
-        source={require("@/assets/images/alfaeduca-lateral.png")}
-        style={styles.logoImage}
-      />
-    </View>
-        <ThemedView style={styles.header}>
-          <ThemedText type="title" style={styles.welcomeMessage}>
-            Atividades
-          </ThemedText>
-          <ThemedText type="subtitle" style={styles.subtitle}>
-            Aqui você encontra todas as atividades disponíveis para você.
-          </ThemedText>
-        </ThemedView>
-        {isLoading ? (
-          <ActivityIndicator
-            size="large"
-            color="#0000ff"
-            style={styles.loadingContainer}
-          />
-        ) : (
-          <>
-            {atividades.map((item) => {
-              const finalizada = item.id ? isTaskFinalizada(item.id) : false;
-              return (
-                <TouchableOpacity
-                  key={item.id}
-                  style={[
-                    styles.taskContainer,
-                    finalizada && styles.taskContainerFinalizada,
-                  ]}
-                  onPress={() => openModal(item)}
-                >
-                  <View style={styles.taskInfoContainer}>
-                    <ThemedText>{item.titulo}</ThemedText>
-                    {item.respostaCorreta && (
-                      <ThemedText>
-                        Resposta correta: {item.respostaCorreta}
-                      </ThemedText>
-                    )}
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </>
-        )}
+    <ScrollView
+      contentContainerStyle={[
+        styles.scrollContainer,
+        isDarkMode ? styles.containerDark : styles.containerLight,
+      ]}
+    >
+      <View style={styles.header}>
+        <Image
+          source={require('@/assets/images/alfaeduca-lateral.png')}
+          style={styles.logoImage}
+        />
+        <ThemedText type="title" style={styles.welcomeMessage}>
+          Atividades
+        </ThemedText>
+        <ThemedText type="subtitle" style={styles.subtitle}>
+          Aqui você encontra todas as atividades disponíveis para você.
+        </ThemedText>
       </View>
+      {isLoading ? (
+        <ActivityIndicator
+          size="large"
+          color={isDarkMode ? '#FFFFFF' : '#0000ff'}
+          style={styles.loadingContainer}
+        />
+      ) : (
+        <View style={styles.tasksContainer}>
+          {atividades.map((item) => {
+            const finalizada = item.id ? isTaskFinalizada(item.id) : false;
+            return (
+              <TouchableOpacity
+                key={item.id}
+                style={[
+                  styles.taskContainer,
+                  finalizada && styles.taskContainerFinalizada,
+                ]}
+                onPress={() => openModal(item)}
+              >
+                <ThemedText style={styles.taskTitle}>{item.titulo}</ThemedText>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      )}
       <TaskModal
         visible={modalVisible}
         task={selectedTask}
         onClose={closeModal}
         onPlay={handlePlay}
-        isFinalizada={selectedTask && selectedTask.id ? isTaskFinalizada(selectedTask.id) : false}
+        isFinalizada={
+          selectedTask && selectedTask.id ? isTaskFinalizada(selectedTask.id) : false
+        }
       />
     </ScrollView>
   );

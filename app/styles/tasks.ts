@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     padding: 16,
     flexGrow: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   containertask: {
     padding: 16,
@@ -31,6 +32,7 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 16,
     marginTop: 16,
+    alignItems: 'center',
   },
   welcomeMessage: {
     marginBottom: 8,
@@ -43,8 +45,9 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   subtitle: {
-    fontSize: 25,
+    fontSize: 16,
     marginBottom: 16,
+    textAlign: 'center',
   },
   progressSection: {
     marginBottom: 16,
@@ -155,13 +158,18 @@ const styles = StyleSheet.create({
   userInfoContainer: {
     flex: 1, // Adiciona esta linha
   },
+  tasksContainer: {
+    width: '100%',
+    alignItems: 'center',
+  },
+
   taskContainer: {
     marginBottom: 16,
     padding: 16,
     borderWidth: 1,
     borderColor: '#FDD992FF',
     borderRadius: 8,
-    width: '80%',
+    width: '90%',
     backgroundColor: '#000000FF',
   },
   taskInfoContainer: {
