@@ -3,56 +3,24 @@ import {
   View,
   ScrollView,
   ActivityIndicator,
-  TouchableOpacity,
   Image,
   useColorScheme,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
-import { useFocusEffect } from '@react-navigation/native';
-
 import { ThemedText } from '@/components/ThemedText';
-import { listarAtividades } from '@/controllers/atividade/listarAtividades';
-import { listarResposta } from '@/controllers/resposta/listarResposta';
 import Task from '@/context/Task';
-import Answer from '@/context/Answer';
 import TaskModal from '@/components/TaskModal';
 import styles from '../styles/tasks';
+import useFetchTasks from '@/hooks/useFetchTasks';
+import TaskList from '@/components/TaskList';
 
 export default function TasksScreen() {
-  const [atividades, setAtividades] = useState<Task[]>([]);
-  const [respostas, setRespostas] = useState<Answer[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { atividades, respostas, isLoading, fetchAtividades } = useFetchTasks();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
   const router = useRouter();
-
-  const fetchAtividades = async () => {
-    setIsLoading(true);
-    try {
-      const token = await AsyncStorage.getItem('token');
-      if (token) {
-        const [data, respostasData] = await Promise.all([
-          listarAtividades(token),
-          listarResposta(token),
-        ]);
-        setAtividades(data);
-        setRespostas(respostasData);
-      }
-    } catch (error) {
-      console.error('Erro ao buscar atividades:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchAtividades();
-    }, [])
-  );
 
   const openModal = (task: Task) => {
     setSelectedTask(task);
@@ -106,23 +74,11 @@ export default function TasksScreen() {
           style={styles.loadingContainer}
         />
       ) : (
-        <View style={styles.tasksContainer}>
-          {atividades.map((item) => {
-            const finalizada = item.id ? isTaskFinalizada(item.id) : false;
-            return (
-              <TouchableOpacity
-                key={item.id}
-                style={[
-                  styles.taskContainer,
-                  finalizada && styles.taskContainerFinalizada,
-                ]}
-                onPress={() => openModal(item)}
-              >
-                <ThemedText style={styles.taskTitle}>{item.titulo}</ThemedText>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+        <TaskList
+          tasks={atividades}
+          isTaskFinalizada={isTaskFinalizada}
+          openModal={openModal}
+        />
       )}
       <TaskModal
         visible={modalVisible}
