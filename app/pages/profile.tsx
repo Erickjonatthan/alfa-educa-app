@@ -11,10 +11,6 @@ export default function ProfileScreen() {
     router.push("/profile-pages/edit-profile");
   };
 
-  const handleAchievements = () => {
-    router.push("/profile-pages/achievements");
-  };
-
   const handleSettings = () => {
     router.navigate("/profile-pages/settings");
   };
@@ -23,7 +19,6 @@ export default function ProfileScreen() {
     <ProfilePage
       user={user}
       handleEditProfile={handleEditProfile}
-      handleAchievements={handleAchievements}
       handleSettings={handleSettings}
     />
   );
