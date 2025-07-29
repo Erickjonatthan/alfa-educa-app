@@ -3,8 +3,18 @@ import renderer from 'react-test-renderer';
 
 import { ThemedText } from '../ThemedText';
 
-it(`renders correctly`, () => {
-  const tree = renderer.create(<ThemedText>Snapshot test!</ThemedText>).toJSON();
+jest.mock('../../hooks/useColorScheme', () => ({
+  __esModule: true,
+  useColorScheme: () => 'light',
+}));
 
-  expect(tree).toMatchSnapshot();
+import { act } from 'react-test-renderer';
+
+it(`renders correctly`, () => {
+  let tree;
+  act(() => {
+    tree = renderer.create(<ThemedText>Snapshot test!</ThemedText>);
+  });
+
+  expect(tree!.toJSON()).toMatchSnapshot();
 });
