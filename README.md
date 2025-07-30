@@ -12,14 +12,17 @@ O AlfaEduca oferece atividades interativas e personalizadas, preparadas para dif
 
 ## Tecnologias Envolvidas:
 
-- **React Native**: desenvolvimento do aplicativo mobile.
-- **TypeScript**: tipagem estática e desenvolvimento do app.
-- **HTML/CSS**: estilização e estruturação de telas e páginas web.
-- **Node.js**: backend e integração de dados.
+- **LLM (Ollama)**: modelo de linguagem para recursos de IA e processamento de linguagem natural.
+- **Java**: desenvolvimento de serviços e integrações principais.
+- **Spring**: framework para o backend em Java.
+- **React Native - Expo**: desenvolvimento do aplicativo mobile multiplataforma.
+- **Python**: scripts, integrações e possíveis recursos de IA.
+- **JavaScript**: lógica de frontend e scripts auxiliares.
+- **HTML/CSS**: estruturação e estilização de páginas web.
+- **OCR**: reconhecimento óptico de caracteres para funcionalidades de imagem para texto.
 - **Docker**: conteinerização e padronização de ambientes.
-- **Java**: possíveis integrações e serviços auxiliares.
-- **Python**: possíveis integrações e serviços auxiliares.
-- **Banco de Dados**: armazenamento das informações dos usuários e progresso (tecnologia a definir).
+- **PostgreSQL, SQL**: armazenamento e gerenciamento de dados.
+- **Shell Script**: automação de tarefas e scripts de ambiente.
 
 ## Sobre o AlfaEduca:
 
@@ -43,6 +46,6 @@ Objetivos do AlfaEduca:
 ## Equipe AlfaEduca:
 
 - **Douglas Bezerra**: Desenvolvedor front-end. Atuou no desenvolvimento do aplicativo mobile da plataforma AlfaEduca utilizando React Native e TypeScript.
-- **Erick Santos**: Desenvolvedor back-end, responsável pela arquitetura do sistema, integração de dados do AlfaEduca e configuração da IA, utilizando Node.js, Docker, Java e Python.
-- **Gladistony Silva**: Desenvolvedor full-stack, atuou no back-end, garantindo integração e estabilidade da plataforma AlfaEduca e apoiou na manutenção de dados, utilizando Node.js, Docker, Java e Python.
-- **Vinícius Gomes**: Desenvolvedor front-end, atuou no desenvolvimento do site WEB da plataforma AlfaEduca utilizando HTML/CSS e TypeScript.
+- **Erick Santos**: Desenvolvedor back-end, responsável pela arquitetura do sistema, integração de dados do AlfaEduca e configuração da IA, utilizando Java, Python e Docker.
+- **Gladistony Silva**: Desenvolvedor full-stack, atuou no back-end, garantindo integração e estabilidade da plataforma AlfaEduca e apoiou na manutenção de dados, utilizando Java e Python.
+- **Vinícius Gomes**: Desenvolvedor front-end, atuou no desenvolvimento do site WEB da plataforma AlfaEduca utilizando HTML e CSS.
