@@ -9,9 +9,10 @@ interface ProfilePageProps {
   user: User | null;
   handleEditProfile: () => void;
   handleSettings: () => void;
+  handleAchievements: () => void;
 }
 
-const ProfilePage: React.FC<ProfilePageProps> = ({ user, handleEditProfile, handleSettings }) => {
+const ProfilePage: React.FC<ProfilePageProps> = ({ user, handleEditProfile, handleSettings, handleAchievements }) => {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
 
@@ -64,6 +65,22 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, handleEditProfile, hand
           ]}
         >
           Editar perfil
+        </ThemedText>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[
+          styles.optionContainer,
+          isDarkMode ? styles.optionContainerDark : styles.optionContainerLight,
+        ]}
+        onPress={handleAchievements}
+      >
+        <ThemedText
+          style={[
+            styles.optionText,
+            isDarkMode ? styles.optionTextDark : styles.optionTextLight,
+          ]}
+        >
+          Conquistas
         </ThemedText>
       </TouchableOpacity>
       <TouchableOpacity
